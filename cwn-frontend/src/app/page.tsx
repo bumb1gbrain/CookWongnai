@@ -3,6 +3,7 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import './globals.css';
 
 
 interface Restaurant {
@@ -26,7 +27,7 @@ export default function RestaurantList() {
       {/* Header */}
       <header className="bg-white p-4 shadow-md sticky top-0 z-10">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold">X</h1>
+          <h1 className="text-xl font-bold text-blue-600">Cook Wongna</h1>
           <input
             className="border border-gray-300 rounded-full px-4 py-2 w-1/3"
             type="text"
@@ -40,11 +41,12 @@ export default function RestaurantList() {
         {/* Sidebar */}
         <aside className="w-1/4 p-4">
           <div className="bg-white p-4 shadow rounded-lg">
-            <h2 className="font-bold">Trending</h2>
+            <h2 className="font-bold text-gray-900">Trending</h2>
             <ul>
-              <li>#MarsMission</li>
-              <li>#AIRevolution</li>
-              <li>#CryptoCrash</li>
+              <li className="text-gray-900">#MarsMission</li>
+              <li className="text-gray-900">#AIRevolution</li>
+              <li className="text-gray-900">#CryptoCrash</li>
+              <li className="text-gray-900">#EBUMAOKPAI</li>
             </ul>
           </div>
         </aside>
@@ -62,8 +64,8 @@ export default function RestaurantList() {
           </div>
           <div className="mt-4">
             {restaurants.map((restaurant) => (
-              <div key={restaurant.id} className="bg-white p-4 shadow rounded-lg mb-4">
-                <h3 className="font-bold">{restaurant.name}</h3>
+              <div key={restaurant.id} className="bg-white p-4 shadow rounded-lg text-gray-900">
+                <h3 className="font-bold text-gray-900">{restaurant.name}</h3>
                 <p>{restaurant.location}</p>
                 <div className="text-gray-500 text-sm">
                   {restaurant.cuisine} likes
@@ -78,9 +80,10 @@ export default function RestaurantList() {
           <div className="bg-white p-4 shadow rounded-lg">
             <h2 className="font-bold">Who to follow</h2>
             <ul>
-              <li>Elon Musk</li>
-              <li>Bill Gates</li>
-              <li>Sundar Pichai</li>
+              <li className="text-gray-900">Elon Musk</li>
+              <li className="text-gray-900">Bill Gates</li>
+              <li className="text-gray-900">Sundar Pichai</li>
+              <li className="text-gray-900">Tatar Ruk Nong Pa tong kho</li>
             </ul>
           </div>
         </aside>
