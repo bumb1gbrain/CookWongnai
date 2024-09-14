@@ -25,16 +25,16 @@ export default function RestaurantList() {
   return (
     <div className="bg-gray-100 h-screen">
       {/* Header */}
-      <header className="bg-white p-4 shadow-md sticky top-0 z-10">
+      {/* <header className="bg-white p-4 shadow-md sticky top-0 z-10">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold text-blue-600">Cook Wongna</h1>
+          <h1 className="text-xl font-bold text-blue-600">Cook Wongnai</h1>
           <input
             className="border border-gray-300 rounded-full px-4 py-2 w-1/3"
             type="text"
             placeholder="Search X"
           />
         </div>
-      </header>
+      </header> */}
 
       {/* Main Content */}
       <main className="container mx-auto flex mt-8">

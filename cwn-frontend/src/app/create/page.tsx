@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react"
@@ -31,7 +32,7 @@ export default function CreateRestaurant() {
         <label>Cuisine:</label>
         <input type="text" value={cuisine} onChange={e => setCuisine(e.target.value)} />
       </div>
-      <button type="submit">Create Restaurant</button>
+      <Button type="submit">Create Restaurant</Button>
     </form>
   );
 }
