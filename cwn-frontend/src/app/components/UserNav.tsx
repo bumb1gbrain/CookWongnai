@@ -13,7 +13,7 @@ export function UserNav() {
                         src="https://www.shutterstock.com/image-vector/user-profile-icon-vector-avatar-600nw-2247726673.jpg"
                         alt="Image of the user" 
                         className="rounded-full h-8 w-8 hidden lg:block"
-                        />
+                    />
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-[200px]">

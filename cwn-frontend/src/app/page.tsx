@@ -6,6 +6,7 @@ import axios from 'axios';
 import './globals.css';
 
 
+
 interface Restaurant {
   id: number;
   name: string;
@@ -53,7 +54,7 @@ export default function RestaurantList() {
 
         {/* Tweet Feed */}
         <section className="w-1/2 p-4">
-          <div className="bg-white p-4 shadow rounded-lg">
+          {/* <div className="bg-white p-4 shadow rounded-lg">
             <textarea
               placeholder="What's happening?"
               className="w-full p-2 border border-gray-300 rounded-lg"
@@ -61,7 +62,7 @@ export default function RestaurantList() {
             <button className="bg-blue-500 text-white px-4 py-2 rounded-lg mt-2">
               Tweet
             </button>
-          </div>
+          </div> */}
           <div className="mt-4">
             {restaurants.map((restaurant) => (
               <div key={restaurant.id} className="bg-white p-4 shadow rounded-lg text-gray-900">
