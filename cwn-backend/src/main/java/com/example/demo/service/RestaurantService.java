@@ -27,15 +27,19 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public Restaurant updateRestaurant(Long id, Restaurant updatedRestaurant) {
-        return restaurantRepository.findById(id)
-            .map(restaurant -> {
-                restaurant.setName(updatedRestaurant.getName());
-                restaurant.setLocation(updatedRestaurant.getLocation());
-                restaurant.setCuisine(updatedRestaurant.getCuisine());
-                return restaurantRepository.save(restaurant);
-            }).orElseThrow(() -> new RuntimeException("Restaurant not found"));
+    public Restaurant updateRestaurant(Long id, Restaurant restaurantDetails) {
+        Restaurant updateRestaurant = restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
+        updateRestaurant.setName(restaurantDetails.getName());
+        updateRestaurant.setOc_time(restaurantDetails.getOc_time());
+        updateRestaurant.setLocation(restaurantDetails.getLocation());
+        updateRestaurant.setTel(restaurantDetails.getTel());
+        updateRestaurant.setType(restaurantDetails.getType());
+        updateRestaurant.setPrice_range(restaurantDetails.getPrice_range());
+        updateRestaurant.setDescription(restaurantDetails.getDescription());
+        updateRestaurant.setPhotos(restaurantDetails.getPhotos());
+        return restaurantRepository.save(updateRestaurant);
     }
+            
 
     public void deleteRestaurant(Long id) {
         restaurantRepository.deleteById(id);

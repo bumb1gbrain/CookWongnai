@@ -1,8 +1,10 @@
 package com.example.demo.controller;
 
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.Restaurant;
+import com.example.demo.model.Review;
 import com.example.demo.service.RestaurantService;
+import com.example.demo.service.ReviewService;
 
 @RestController
 @RequestMapping("/api/restaurants")
@@ -22,15 +26,18 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
+    @Autowired
+    private ReviewService reviewService;
+
     @GetMapping
     public List<Restaurant> getAllRestaurants() {
         return restaurantService.getAllRestaurants();
     }
 
     @GetMapping("/{id}")
-    public Restaurant getRestaurantById(@PathVariable Long id) {
-        return restaurantService.getRestaurantById(id)
-            .orElseThrow(() -> new RuntimeException("Restaurant not found"));
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
+        Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
+        return restaurant.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -39,12 +46,36 @@ public class RestaurantController {
     }
 
     @PutMapping("/{id}")
-    public Restaurant updateRestaurant(@PathVariable Long id, @RequestBody Restaurant restaurant) {
-        return restaurantService.updateRestaurant(id, restaurant);
+    public ResponseEntity<Restaurant> updateRestaurant(@PathVariable Long id,
+            @RequestBody Restaurant restaurantDetails) {
+        try {
+            Restaurant updatedRestaurant = restaurantService.updateRestaurant(id, restaurantDetails);
+            return ResponseEntity.ok(updatedRestaurant);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @DeleteMapping("/{id}")
     public void deleteRestaurant(@PathVariable Long id) {
         restaurantService.deleteRestaurant(id);
     }
+
+    // ได้้คับ แต่ขอเวลาเขียน method นี้ให้้หน่อยครับเปค อันนี้medthodอะไรครับ
+     // @PostMapping("/{restaurantId}/reviews") method ไม่มีครับ มี methad
+    
+    @PostMapping("/{id}/reviews")
+    public ResponseEntity<Review> addReviewToRestaurant(@PathVariable Long id,
+                                               @RequestBody Review review) {
+        Long userid = (long) 1;
+        Review createdReview = reviewService.createReview(id, userid, review);
+        return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}/reviews")
+    public ResponseEntity<List<Review>> getReviewsByRestaurant(@PathVariable Long id) {
+        List<Review> reviews = reviewService.getReviewsByRestaurant(id);
+        return new ResponseEntity<>(reviews, HttpStatus.OK);
+    }
+
 }

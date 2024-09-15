@@ -1,6 +1,9 @@
 package com.example.demo.model;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,6 +34,8 @@ public class User {
     private List<Restaurant> favoriteRestaurants;
 
     @OneToMany(mappedBy = "user")
+    
+    @JsonIgnore
     private List<Review> reviews;
 
     public Long getId() {
@@ -95,6 +100,14 @@ public class User {
 
     public void setReviews(List<Review> reviews) {
         this.reviews = reviews;
+    }
+
+     public void addFavoriteRestaurant(Restaurant restaurant) {
+        this.favoriteRestaurants.add(restaurant);
+    }
+
+    public void removeFavoriteRestaurant(Restaurant restaurant) {
+        this.favoriteRestaurants.remove(restaurant);
     }
     
     
