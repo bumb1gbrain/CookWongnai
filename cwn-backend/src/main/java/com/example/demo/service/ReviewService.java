@@ -10,6 +10,8 @@ import com.example.demo.model.Review;
 import com.example.demo.repository.RestaurantRepository;
 import com.example.demo.repository.ReviewRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.dto.*;
+
 
 @Service
 public class ReviewService {
@@ -23,26 +25,6 @@ public class ReviewService {
     @Autowired
     private UserRepository userRepository;
 
-    // public List<Review> getAllReviews(){
-    //     return reviewRepository.findAll();
-    // }
-
-    // public Optional<Review> getReviewById(Long id){
-    //     return reviewRepository.findById(id);
-    // }
-
-    // public List<Review> getReviewsByRestaurant(Long restaurantId) {
-    //     return reviewRepository.findByRestaurantId(restaurantId);
-    // }
-
-    // public List<Review> getReviewsByUser(Long userId){
-    //     return reviewRepository.findByUserId(userId);
-    // }
-
-    // public Review createReview(Review review){
-    //     return reviewRepository.save(review);
-    // }
-    
     public Review createReview(Long restaurantId, Long userId, Review review) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RuntimeException("Restaurant not found with id " + restaurantId));
@@ -55,6 +37,23 @@ public class ReviewService {
 
         return reviewRepository.save(review);
     }
+
+    public ReviewDTO createReview(Long restaurantId, Long userId, ReviewDTO reviewDTO) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new RuntimeException("Restaurant not found with id " + restaurantId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id " + userId));
+        Review review = new Review();
+        review.setComment(reviewDTO.getComment());
+        review.setRating(reviewDTO.getRating());
+        review.setRestaurant(restaurant);
+        review.setUser(user);
+        reviewRepository.save(review);
+        
+        reviewDTO.setId(review.getId());
+        return reviewDTO;
+    }
+
     public List<Review> getReviewsByRestaurant(Long restaurantId) {
             // Optionally, verify if restaurant exists
             if (!restaurantRepository.existsById(restaurantId)) {
@@ -85,4 +84,24 @@ public class ReviewService {
         Review review = getReviewById(id);
         reviewRepository.delete(review);
     }
+
+        // public List<Review> getAllReviews(){
+    //     return reviewRepository.findAll();
+    // }
+
+    // public Optional<Review> getReviewById(Long id){
+    //     return reviewRepository.findById(id);
+    // }
+
+    // public List<Review> getReviewsByRestaurant(Long restaurantId) {
+    //     return reviewRepository.findByRestaurantId(restaurantId);
+    // }
+
+    // public List<Review> getReviewsByUser(Long userId){
+    //     return reviewRepository.findByUserId(userId);
+    // }
+
+    // public Review createReview(Review review){
+    //     return reviewRepository.save(review);
+    // }
 }

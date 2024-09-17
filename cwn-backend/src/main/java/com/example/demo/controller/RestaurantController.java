@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,15 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.dto.ReviewRequestDTO;
-import com.example.demo.dto.ReviewResponseDTO;
+import com.example.demo.dto.ReviewDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.Review;
 import com.example.demo.service.RestaurantService;
 import com.example.demo.service.ReviewService;
+
 
 
 @RestController
@@ -65,17 +63,31 @@ public class RestaurantController {
     public void deleteRestaurant(@PathVariable Long id) {
         restaurantService.deleteRestaurant(id);
     }
-
-    // ได้้คับ แต่ขอเวลาเขียน method นี้ให้้หน่อยครับเปค อันนี้medthodอะไรครับ
-     // @PostMapping("/{restaurantId}/reviews") method ไม่มีครับ มี methad
     
+    // ที่จะลองใช้ DTO created
+    // @PostMapping("/{id}/reviews")
+    // public ResponseEntity<ReviewDTO> createReview(@PathVariable Long id,
+    //                                                @RequestParam Long userId,
+    //                                                @RequestBody ReviewDTO reviewDTO) {
+    //     try {
+    //         ReviewDTO createdReviewDTO = reviewService.createReview(id, userId, reviewDTO);
+    //         return new ResponseEntity<>(createdReviewDTO, HttpStatus.CREATED);
+    //     } catch (RuntimeException e) {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    //     }
+    // }
+
     @PostMapping("/{id}/reviews")
-    public ResponseEntity<Review> addReviewToRestaurant(@PathVariable Long id,
-                                               @RequestBody Review review) {
-        Long userid = (long) 1;
-        Review createdReview = reviewService.createReview(id, userid, review);
-        return new ResponseEntity<>(createdReview, HttpStatus.CREATED);
-    }
+    public ResponseEntity<ReviewDTO> createReview(@PathVariable Long id,
+                                                   @RequestBody ReviewDTO reviewDTO) {
+        Long userId = 1L;                                            
+        try {
+            ReviewDTO createdReviewDTO = reviewService.createReview(id, userId, reviewDTO);
+            return new ResponseEntity<>(createdReviewDTO, HttpStatus.CREATED);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }                                                             
 
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<Review>> getReviewsByRestaurant(@PathVariable Long id) {
