@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,12 +13,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.ReviewRequestDTO;
+import com.example.demo.dto.ReviewResponseDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.Review;
 import com.example.demo.service.RestaurantService;
 import com.example.demo.service.ReviewService;
+
 
 @RestController
 @RequestMapping("/api/restaurants")
@@ -78,4 +83,102 @@ public class RestaurantController {
         return new ResponseEntity<>(reviews, HttpStatus.OK);
     }
 
+//     @PostMapping("/{restaurantId}/reviews")
+//     public ResponseEntity<ReviewResponseDTO> createReview(
+//             @PathVariable Long restaurantId,
+//             @RequestParam Long userId,
+//             @RequestBody ReviewRequestDTO reviewRequestDTO) {
+        
+//         Review review = new Review();
+//         review.setRating(reviewRequestDTO.getRating());
+//         review.setComment(reviewRequestDTO.getComment());
+
+//         Review createdReview = reviewService.createReview(restaurantId, userId, review);
+
+//         ReviewResponseDTO responseDTO = new ReviewResponseDTO(
+//                 createdReview.getId(),
+//                 createdReview.getRating(),
+//                 createdReview.getComment(),
+//                 createdReview.getUser().getUsername()
+//         );
+
+//         return new ResponseEntity<>(responseDTO, HttpStatus.CREATED);
+//     }
+
+//     // Get all reviews for a specific restaurant
+//     @GetMapping("/{restaurantId}/reviews")
+//     public ResponseEntity<List<ReviewResponseDTO>> getReviewsByRestaurant(@PathVariable Long restaurantId) {
+//         List<Review> reviews = reviewService.getReviewsByRestaurant(restaurantId);
+//         List<ReviewResponseDTO> responseDTOs = reviews.stream().map(review -> 
+//             new ReviewResponseDTO(
+//                 review.getId(),
+//                 review.getRating(),
+//                 review.getComment(),
+//                 review.getUser().getUsername()
+//             )
+//         ).collect(Collectors.toList());
+
+//         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
+//     }
+
+//     // Get all reviews by a specific user
+//     @GetMapping("/users/{userId}/reviews")
+//     public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable Long userId) {
+//         List<Review> reviews = reviewService.getReviewsByUser(userId);
+//         List<ReviewResponseDTO> responseDTOs = reviews.stream().map(review -> 
+//             new ReviewResponseDTO(
+//                 review.getId(),
+//                 review.getRating(),
+//                 review.getComment(),
+//                 review.getUser().getUsername()
+//             )
+//         ).collect(Collectors.toList());
+
+//         return new ResponseEntity<>(responseDTOs, HttpStatus.OK);
+//     }
+
+//     // Get a specific review by ID
+//     @GetMapping("/reviews/{reviewId}")
+//     public ResponseEntity<ReviewResponseDTO> getReviewById(@PathVariable Long reviewId) {
+//         Review review = reviewService.getReviewById(reviewId);
+//         ReviewResponseDTO responseDTO = new ReviewResponseDTO(
+//                 review.getId(),
+//                 review.getRating(),
+//                 review.getComment(),
+//                 review.getUser().getUsername()
+//         );
+//         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+//     }
+
+//     // Update a review
+//     @PutMapping("/reviews/{reviewId}")
+//     public ResponseEntity<ReviewResponseDTO> updateReview(
+//             @PathVariable Long reviewId,
+//             @RequestBody ReviewRequestDTO reviewRequestDTO) {
+        
+//         Review reviewDetails = new Review();
+//         reviewDetails.setRating(reviewRequestDTO.getRating());
+//         reviewDetails.setComment(reviewRequestDTO.getComment());
+
+//         Review updatedReview = reviewService.updateReview(reviewId, reviewDetails);
+
+//         ReviewResponseDTO responseDTO = new ReviewResponseDTO(
+//                 updatedReview.getId(),
+//                 updatedReview.getRating(),
+//                 updatedReview.getComment(),
+//                 updatedReview.getUser().getUsername()
+//         );
+
+//         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+//     }
+
+//     // Delete a review
+//     @DeleteMapping("/reviews/{reviewId}")
+//     public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+//         reviewService.deleteReview(reviewId);
+//         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//     }
 }
+
+
+

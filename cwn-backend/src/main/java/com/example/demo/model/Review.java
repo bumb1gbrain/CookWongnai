@@ -20,14 +20,30 @@ public class Review {
     private Integer rating;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     @JsonBackReference
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_id", nullable = false)
     @JsonIgnore
     private Restaurant restaurant;
+
+    public Review (){
+        
+    }
+
+    
+
+    public Review(Long id, String comment, Integer rating, User user, Restaurant restaurant) {
+        this.id = id;
+        this.comment = comment;
+        this.rating = rating;
+        this.user = user;
+        this.restaurant = restaurant;
+    }
+
+
 
     public Long getId() {
         return id;
