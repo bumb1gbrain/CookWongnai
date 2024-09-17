@@ -35,7 +35,7 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     
-    @JsonIgnore
+    //@JsonIgnore
     private List<Review> reviews;
 
     public Long getId() {
