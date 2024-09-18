@@ -1,9 +1,15 @@
 package com.example.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
 import java.util.List;
 
+import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.Restaurant;
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import java.util.Optional;
 
@@ -18,16 +24,38 @@ public class UserService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    
+
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
     
     public Optional<User> getUserById(Long id){
         return userRepository.findById(id);
-    }
+    }   
 
-    public User createUser(User user){
-        return userRepository.save(user);
+    public void registerUser(UserRegistrationDTO userRegistrationDTO) {
+        // Check if the username or email already exists
+        if (userRepository.findByUsername(userRegistrationDTO.getUsername()) == null){
+            throw new RuntimeException("Username already exists");
+        }
+        if (userRepository.findByEmail(userRegistrationDTO.getEmail()) == null) {
+            throw new RuntimeException("Email already exists");
+        }
+
+        // Create a new User entity
+        User user = new User();
+        user.setUsername(userRegistrationDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword())); // Encrypt the password
+        user.setEmail(userRegistrationDTO.getEmail());
+        user.setRole(Arrays.asList(new Role("USER"))) ;
+
+        // Save the user
+        userRepository.save(user);
+        
     }
 
     public User updateUser(Long id, User userDetails) {
@@ -68,6 +96,29 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getFavoriteRestaurants();
     }
+
+    //private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    // public void registerUser(String username, String password) {
+    //     if (userRepository.findByUsername(username)) {
+    //         throw new RuntimeException("User already exists");
+    //     }
+
+    //     User user = new User();
+    //     user.setUsername(username);
+    //     user.setPassword(passwordEncoder.encode(password));
+    //     userRepository.save(user);
+    // }
+
+    // public User loginUser(String username, String password) {
+    //     Optional<User> userOptional = userRepository.findByUsername(username);
+
+    //     if (userOptional.isEmpty() || !passwordEncoder.matches(password, userOptional.get().getPassword())) {
+    //         throw new RuntimeException("Invalid username or password");
+    //     }
+
+    //     return userOptional.get();
+    // }
 }
 
 

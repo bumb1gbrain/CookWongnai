@@ -1,10 +1,10 @@
 package com.example.demo.model;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,19 +12,32 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "username")
     private String username;
     private String password;
 
     private String name;
     private String email;
-    private String role;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "users_role",
+        joinColumns = @JoinColumn(
+            name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(
+            name = "role_id", referencedColumnName = "id")
+        )
+    private List<Role> role;
 
     @ManyToMany
     @JoinTable(
@@ -34,9 +47,22 @@ public class User {
     private List<Restaurant> favoriteRestaurants;
 
     @OneToMany(mappedBy = "user")
+
     
-    //@JsonIgnore
+    
+    
     private List<Review> reviews;
+
+    public User(){
+        
+    }
+
+    public User(String username, String password, String email, List<Role> role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.email = email;
+    }
 
     public Long getId() {
         return id;
@@ -78,13 +104,6 @@ public class User {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public List<Restaurant> getFavoriteRestaurants() {
         return favoriteRestaurants;
@@ -108,6 +127,14 @@ public class User {
 
     public void removeFavoriteRestaurant(Restaurant restaurant) {
         this.favoriteRestaurants.remove(restaurant);
+    }
+
+    public List<Role> getRole() {
+        return role;
+    }
+
+    public void setRole(List<Role> role) {
+        this.role = role;
     }
     
     
