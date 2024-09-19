@@ -1,10 +1,15 @@
 package com.example.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.example.demo.dto.UserRegistrationDTO;
@@ -12,12 +17,11 @@ import com.example.demo.model.Restaurant;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import java.util.Optional;
-
 import com.example.demo.repository.RestaurantRepository;
 import com.example.demo.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     @Autowired
     public UserRepository userRepository;
 
@@ -37,12 +41,16 @@ public class UserService {
         return userRepository.findById(id);
     }   
 
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+    
     public void registerUser(UserRegistrationDTO userRegistrationDTO) {
         // Check if the username or email already exists
-        if (userRepository.findByUsername(userRegistrationDTO.getUsername()) == null){
+        if (userRepository.findByUsername(userRegistrationDTO.getUsername()) != null){
             throw new RuntimeException("Username already exists");
         }
-        if (userRepository.findByEmail(userRegistrationDTO.getEmail()) == null) {
+        if (userRepository.findByEmail(userRegistrationDTO.getEmail()) != null) {
             throw new RuntimeException("Email already exists");
         }
 
@@ -97,28 +105,24 @@ public class UserService {
         return user.getFavoriteRestaurants();
     }
 
-    //private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
 
-    // public void registerUser(String username, String password) {
-    //     if (userRepository.findByUsername(username)) {
-    //         throw new RuntimeException("User already exists");
-    //     }
+        // Ensure authorities are not null
+        List<GrantedAuthority> authorities = getAuthorities(user);
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+    }
 
-    //     User user = new User();
-    //     user.setUsername(username);
-    //     user.setPassword(passwordEncoder.encode(password));
-    //     userRepository.save(user);
-    // }
+    private List<GrantedAuthority> getAuthorities(User user) {
+        // Example: Assign a single role "ROLE_USER". You can change this to reflect your application's roles.
+        return Collections.singletonList(new SimpleGrantedAuthority("USER"));
+    }
 
-    // public User loginUser(String username, String password) {
-    //     Optional<User> userOptional = userRepository.findByUsername(username);
-
-    //     if (userOptional.isEmpty() || !passwordEncoder.matches(password, userOptional.get().getPassword())) {
-    //         throw new RuntimeException("Invalid username or password");
-    //     }
-
-    //     return userOptional.get();
-    // }
+   
 }
 
 

@@ -40,6 +40,19 @@ public class UserController {
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // @GetMapping("/byname/{username}")
+    // public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+    // // Assuming UserService has a method getUserByUsername
+    // User user = userService.getUserByUsername(username);
+
+    // if (user != null) {
+    //     // If the user is found, return it with status 200 (OK)
+    //     return ResponseEntity.ok(user);
+    // } else {
+    //     // If the user is not found, return a 404 (Not Found)
+    //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    //  }
+    // }   
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody UserRegistrationDTO userRegistrationDTO) {
         try {
