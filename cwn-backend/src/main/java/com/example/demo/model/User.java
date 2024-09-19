@@ -28,15 +28,19 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
+    @Column(nullable = false)
+
     private String password;
 
     private String name;
+    @Column(nullable = false)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
+    @JoinTable
+    (
         name = "users_role",
         joinColumns = @JoinColumn(
             name = "user_id", referencedColumnName = "id"),
@@ -149,6 +153,27 @@ public class User implements UserDetails {
     public void setRole(List<Role> role) {
         this.role = role;
     }
+
+    @Override
+public boolean isAccountNonExpired() {
+    return true;
+}
+
+@Override
+public boolean isAccountNonLocked() {
+    return true;
+}
+
+@Override
+public boolean isCredentialsNonExpired() {
+    return true;
+}
+
+@Override
+public boolean isEnabled() {
+    return true;
+}
+
     
     
 

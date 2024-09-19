@@ -45,7 +45,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
     
-    public void registerUser(UserRegistrationDTO userRegistrationDTO) {
+    public void createUser(UserRegistrationDTO userRegistrationDTO) {
         // Check if the username or email already exists
         if (userRepository.findByUsername(userRegistrationDTO.getUsername()) != null){
             throw new RuntimeException("Username already exists");

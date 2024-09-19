@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Restaurant;
 import com.example.demo.repository.RestaurantRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RestaurantService {
@@ -26,9 +27,9 @@ public class RestaurantService {
     public Restaurant createRestaurant(Restaurant restaurant) {
         return restaurantRepository.save(restaurant);
     }
-
+    @Transactional
     public Restaurant updateRestaurant(Long id, Restaurant restaurantDetails) {
-        Restaurant updateRestaurant = restaurantRepository.findById(id).orElseThrow(() -> new RuntimeException("Restaurant not found"));
+        Restaurant updateRestaurant = restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
         updateRestaurant.setName(restaurantDetails.getName());
         updateRestaurant.setOc_time(restaurantDetails.getOc_time());
         updateRestaurant.setLocation(restaurantDetails.getLocation());

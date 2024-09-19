@@ -1,26 +1,10 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
+public class RestaurantDTO {
 
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-
-@Entity
-public class Restaurant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     private String name;
     private String oc_time;
     private String location;
@@ -28,19 +12,13 @@ public class Restaurant {
     private List<String> type;
     private String price_range;
     private String description;
-    @ElementCollection
-    private List<String> photos = new ArrayList<>();
+    private List<String> photos;
 
-    @ManyToMany(mappedBy = "favoriteRestaurants")
-    private List<User> usersWhoFavorited = new ArrayList<>();
+    // Constructors
+    public RestaurantDTO() {}
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    //@JsonIgnore
-    private List<Review> reviews = new ArrayList<>();
-
-    public Restaurant(Long id, String name, String oc_time, String location, String tel, List<String> type,
-            String price_range, String description, List<String> photos, List<User> usersWhoFavorited,
-            List<Review> reviews) {
+    public RestaurantDTO(Long id, String name, String oc_time, String location, String tel, List<String> type,
+                         String price_range, String description, List<String> photos) {
         this.id = id;
         this.name = name;
         this.oc_time = oc_time;
@@ -50,13 +28,9 @@ public class Restaurant {
         this.price_range = price_range;
         this.description = description;
         this.photos = photos;
-        this.usersWhoFavorited = usersWhoFavorited;
-        this.reviews = reviews;
     }
 
-    public Restaurant() {
-    }
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -128,25 +102,4 @@ public class Restaurant {
     public void setPhotos(List<String> photos) {
         this.photos = photos;
     }
-
-    public List<User> getUsersWhoFavorited() {
-        return usersWhoFavorited;
-    }
-
-    public void setUsersWhoFavorited(List<User> usersWhoFavorited) {
-        this.usersWhoFavorited = usersWhoFavorited;
-    }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
-    
-    
-
-    
 }

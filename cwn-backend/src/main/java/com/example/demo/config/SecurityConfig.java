@@ -25,24 +25,48 @@ public class SecurityConfig {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    // @Bean
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         
-        return http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/restaurants").permitAll()
-                        .requestMatchers("/registration").permitAll()
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/logout").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/", true))
-                .logout(config -> config.logoutSuccessUrl("/"))
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for testing, but enable it in production
-                .build();
+    //     return http
+    //             .authorizeHttpRequests(auth -> auth
+    //                     .requestMatchers("/").permitAll()
+    //                     .requestMatchers("/restaurants").permitAll()
+    //                     .requestMatchers("/registration").permitAll()
+    //                     .requestMatchers("/login").permitAll()
+    //                     .requestMatchers("/logout").permitAll()
+    //                     .anyRequest().authenticated())
+    //             .formLogin(form -> form
+    //                     .defaultSuccessUrl("/", true))
+    //             .logout(config -> config.logoutSuccessUrl("/"))
+    //             .csrf(csrf -> csrf.disable()) // Disable CSRF for testing, but enable it in production
+    //             .build();
+    // }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+            .authorizeHttpRequests(auth ->
+                auth
+                    .anyRequest().permitAll() // Allow all requests without authentication
+            )
+            .formLogin(formLogin ->
+                formLogin
+                    .disable() // Disable form login if not needed
+            )
+            .logout(logout ->
+                logout
+                    .disable() // Disable logout if not needed
+            )
+            .csrf(csrf ->
+                csrf.disable() // Disable CSRF protection for simplicity (be cautious with this in production)
+            );
+
+        return http.build();
     }
+
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

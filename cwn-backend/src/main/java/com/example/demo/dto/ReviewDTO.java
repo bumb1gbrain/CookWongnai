@@ -12,10 +12,10 @@ public class ReviewDTO {
     }
 
     
-    public ReviewDTO(Long id, int rating, String comment, Long userId, Long restaurantId) {
+    public ReviewDTO(Long id, String comment,int rating, Long userId, Long restaurantId) {
         this.id = id;
-        this.rating = rating;
         this.comment = comment;
+        this.rating = rating;
         this.userId = userId;
         this.restaurantId = restaurantId;
     }
