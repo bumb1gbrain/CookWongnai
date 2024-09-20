@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Restaurant</title>
+</head>
+<body>
+    <h1>Edit Restaurant</h1>
+    <form th:action="@{/restaurants/{id}/edit(id=${restaurant.id})}" method="post">
+        <label>Name:</label>
+        <input type="text" name="name" th:value="${restaurant.name}">
+        <label>Description:</label>
+        <textarea name="description" th:text="${restaurant.description}"></textarea>
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>

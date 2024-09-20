@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurants</title>
+</head>
+<body>
+    <h1>Restaurant List</h1>
+    <a href="/restaurants/new">Add New Restaurant</a>
+    <ul>
+        <th:block th:each="restaurant : ${restaurants}">
+            <li>
+                <a th:href="@{/restaurants/{id}(id=${restaurant.id})}" th:text="${restaurant.name}"></a>
+                | <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}">Edit</a>
+                | <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}">Delete</a>
+            </li>
+        </th:block>
+    </ul>
+</body>
+</html>
