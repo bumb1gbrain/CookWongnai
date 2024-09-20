@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CwnFrontendApplication",
+            "request": "launch",
+            "mainClass": "com.example.demo.CwnFrontendApplication",
+            "projectName": "cwn-frontend"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-CwnBackendApplication<cwn-backend>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
