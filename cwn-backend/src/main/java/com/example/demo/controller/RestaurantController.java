@@ -65,30 +65,29 @@ public class RestaurantController {
         restaurantService.deleteRestaurant(id);
     }
     
-    // // ที่จะลองใช้ DTO created
-    //     @PostMapping("/{id}/reviews")
-    //     public ResponseEntity<ReviewDTO> createReview(@PathVariable Long id,
-    //                                                 @RequestParam Long userId,
-    //                                                 @RequestBody ReviewDTO reviewDTO) {
-    //         try {
-    //             ReviewDTO createdReviewDTO = reviewService.createReview(id, userId, reviewDTO);
-    //             return new ResponseEntity<>(createdReviewDTO, HttpStatus.CREATED);
-    //         } catch (RuntimeException e) {
-    //             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-    //         }
-    //     }
-
-    @PostMapping("/{id}/reviews")
-    public ResponseEntity<ReviewDTO> createReview(@PathVariable Long id,
-                                                   @RequestBody ReviewDTO reviewDTO) {
-        Long userId = 1L;                                            
-        try {
-            ReviewDTO createdReviewDTO = reviewService.createReview(id, userId, reviewDTO);
-            return new ResponseEntity<>(createdReviewDTO, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    // ที่จะลองใช้ DTO created
+        @PostMapping("/{id}/reviews")
+        public ResponseEntity<ReviewDTO> createReview(@PathVariable Long id,
+                                                    @RequestBody ReviewDTO reviewDTO) {
+            try {
+                ReviewDTO createdReviewDTO = reviewService.createReview(id,reviewDTO);
+                return new ResponseEntity<>(createdReviewDTO, HttpStatus.CREATED);
+            } catch (RuntimeException e) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
         }
-    }                                                             
+
+    // @PostMapping("/{id}/reviews")
+    // public ResponseEntity<ReviewDTO> createReview(@PathVariable Long id,
+    //                                                @RequestBody ReviewDTO reviewDTO) {
+    //     Long userId = 1L;                                            
+    //     try {
+    //         ReviewDTO createdReviewDTO = reviewService.createReview(id, userId, reviewDTO);
+    //         return new ResponseEntity<>(createdReviewDTO, HttpStatus.CREATED);
+    //     } catch (RuntimeException e) {
+    //         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    //     }
+    // }                                                             
 
     @GetMapping("/{id}/reviews")
     public ResponseEntity<List<Review>> getReviewsByRestaurant(@PathVariable Long id) {

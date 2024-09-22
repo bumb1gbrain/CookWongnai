@@ -43,13 +43,11 @@ public class ReviewService {
 
     // DTO method to create a review
     @Transactional
-    public ReviewDTO createReview(Long restaurantId, Long userId, ReviewDTO reviewDTO) {
+    public ReviewDTO createReview(Long restaurantId, ReviewDTO reviewDTO) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
-
+        User user = userRepository.findById(reviewDTO.getUserId())
+                .orElseThrow(() -> new UserNotFoundException(reviewDTO.getUserId()));
         Review review = new Review();
         review.setComment(reviewDTO.getComment());
         review.setRating(reviewDTO.getRating());

@@ -1,7 +1,6 @@
 package com.example.demo.dto;
 import java.util.List;
 import com.example.demo.model.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserResponseDTO {
     private String username;

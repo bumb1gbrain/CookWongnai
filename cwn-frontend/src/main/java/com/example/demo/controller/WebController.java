@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.ReviewDTO;
 import com.example.demo.dto.ReviewResponseDTO;
 import com.example.demo.model.Restaurant;
@@ -32,19 +33,26 @@ public class WebController {
 
     // Display all restaurants
     @GetMapping
-    public String getAllRestaurants(Model model) {
+    public String getAllRestaurants(Model model, @RequestParam("username") String username) {
         List<Restaurant> restaurants = restaurantService.getAllRestaurant();
         model.addAttribute("restaurants", restaurants);
+        System.out.println("\n\n----------------------------------------\n");
+        System.out.println("us name : "+username);
+        model.addAttribute("username", username);
         return "restaurant-list";
     }
 
     // Display a single restaurant
-    @GetMapping("/{id}")    
-    public String getRestaurantById(@PathVariable Long id, Model model) {
+    @GetMapping("/{id}")
+    public String getRestaurantById(@PathVariable Long id, @RequestParam String username, Model model) {
         Restaurant restaurant = restaurantService.getRestaurantById(id);
         List<ReviewResponseDTO> reviews = reviewService.getReviewsByRestaurant(id);
+        System.out.println("\n\n----------------------------------------\n");
+        System.out.println("us name : "+username);
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("reviews", reviews);
+        
+        model.addAttribute("username", username);
         return "restaurant-detail";
     }
 
@@ -86,9 +94,10 @@ public class WebController {
 
     // Create new review for a restaurant
     @PostMapping("/{restaurantId}/reviews")
-    public String createReview(@PathVariable Long restaurantId, @ModelAttribute ReviewDTO reviewDTO) {
-        reviewService.createReview(restaurantId, reviewDTO);
-        return "redirect:/restaurants/" + restaurantId;
+    public String createReview(@PathVariable Long restaurantId, @ModelAttribute ReviewDTO reviewDTO, @RequestParam String username) {
+        Long userId = userService.getUserByUsername(username).getId();
+        reviewService.createReview(restaurantId, reviewDTO, userId);
+        return "redirect:/restaurants/" + restaurantId + "?username=" + username ;
     }
 
     // Delete a review

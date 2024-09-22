@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Restaurant Details</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
     <h1 th:text="${restaurant.name}"></h1>
     <p th:text="${restaurant.description}"></p>
@@ -15,14 +17,18 @@
         </th:block>
     </ul>
     <h2>Add Review</h2>
-    <form th:action="@{/restaurants/{id}/reviews(id=${restaurant.id})}" method="post">
+    <form th:action="@{'/restaurants/{id}/reviews' + '?username=' + ${username}(id=${restaurant.id})}" method="post">
         <textarea name="comment"></textarea>
         <button type="submit">Submit</button>
     </form>
-    
-    <!-- <form th:action="@{/users/{userId}/favorites/{restaurantId}(userId=${user.id}, restaurantId=${restaurant.id})}" method="post">
+
+    <!-- <form th:action="@{/users/{userId}/favorites/{restaurantId}(userId=${user.id}, restaurantId=${restaurant.id})}"
+        method="post">
         <button type="submit">Add to Favorites</button>
     </form> -->
-    
+
+
+
 </body>
+
 </html>

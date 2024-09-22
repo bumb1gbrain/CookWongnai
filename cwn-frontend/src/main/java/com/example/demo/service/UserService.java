@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+// import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.userdetails.UserDetailsService;
+// import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+// import org.springframework.security.authentication.InternalAuthenticationServiceException;
+// import org.springframework.security.core.GrantedAuthority;
+// import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import java.util.stream.Collectors;
 
 
@@ -24,7 +24,8 @@ import com.example.demo.model.User;
 import com.example.demo.model.Role;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
+// implements UserDetailsService 
     @Autowired
     private RestTemplate restTemplate;
 
@@ -44,6 +45,12 @@ public class UserService implements UserDetailsService {
         String url = baseUrl + "/" + id;
         ResponseEntity<User> response =  restTemplate.exchange(url,HttpMethod.GET,null
                 ,new ParameterizedTypeReference<User>() {});
+        return response.getBody();
+    }
+
+    public User getUserByUsername(String username) {
+        String url = baseUrl + "/byUsername/" + username;
+        ResponseEntity<User> response = restTemplate.getForEntity(url, User.class);
         return response.getBody();
     }
 
@@ -144,38 +151,39 @@ public class UserService implements UserDetailsService {
 //     return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
 // }
 
-    private List<GrantedAuthority> getAuthorities(List<Role> roles) {
-    if (roles == null || roles.isEmpty()) {
-        return Collections.singletonList(new SimpleGrantedAuthority("USER")); // Default role if none exist
-    }
-    // Map roles to GrantedAuthority
-    return roles.stream()
-                .map(role -> new SimpleGrantedAuthority("USER")) // Prefix "ROLE_" for roles
-                .collect(Collectors.toList());
-}
+//     private List<GrantedAuthority> getAuthorities(List<Role> roles) {
+//     if (roles == null || roles.isEmpty()) {
+//         return Collections.singletonList(new SimpleGrantedAuthority("USER")); // Default role if none exist
+//     }
+//     // Map roles to GrantedAuthority
+//     return roles.stream()
+//                 .map(role -> new SimpleGrantedAuthority("USER")) // Prefix "ROLE_" for roles
+//                 .collect(Collectors.toList());
+// }
 
-@Override
-public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    String url = baseUrl + "/byUsername/" + username; // Construct the URL
-    UserResponseDTO user = restTemplate.getForObject(url, UserResponseDTO.class);
+    
+// @Override
+// public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//     String url = baseUrl + "/byUsername/" + username; // Construct the URL
+//     UserResponseDTO user = restTemplate.getForObject(url, UserResponseDTO.class);
 
-    if (user == null) {
-        throw new UsernameNotFoundException("User not found");
-    }
+//     if (user == null) {
+//         throw new UsernameNotFoundException("User not found");
+//     }
 
-    System.out.println("User found: " + user.getUsername());
-    System.out.println("User roles: " + user.getRole());
-    System.out.println("User pass " + user.getPassword());
+//     System.out.println("User found: " + user.getUsername());
+//     System.out.println("User roles: " + user.getRole());
+//     System.out.println("User pass " + user.getPassword());
 
-    // Ensure authorities are not null
-    List<GrantedAuthority> authorities = getAuthorities(user.getRole()); // Fetch roles dynamically
-    // Ensure password is not null or empty
-    if (user.getPassword() == null || user.getPassword().isEmpty()) {
-        throw new InternalAuthenticationServiceException("User password cannot be null or empty");
-    }
+//     // Ensure authorities are not null
+//     List<GrantedAuthority> authorities = getAuthorities(user.getRole()); // Fetch roles dynamically
+//     // Ensure password is not null or empty
+//     if (user.getPassword() == null || user.getPassword().isEmpty()) {
+//         throw new InternalAuthenticationServiceException("User password cannot be null or empty");
+//     }
 
-    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
-}
+//     return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
+// }
 }
 
 

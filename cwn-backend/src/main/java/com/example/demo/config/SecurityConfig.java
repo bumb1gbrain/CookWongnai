@@ -88,7 +88,7 @@ public class SecurityConfig {
                 .password(passwordEncoder().encode(password))
                 .authorities(Collections.singletonList(new SimpleGrantedAuthority("USER")))
                 .build();
-
+        
         return new InMemoryUserDetailsManager(user);
     }
 

@@ -2,13 +2,18 @@ package com.example.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+
 import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.service.UserService;
+
+
 
 @Controller
 public class UserRegistrationController {
@@ -31,7 +36,7 @@ public class UserRegistrationController {
         try {
             System.out.println("justwannaprint");
             userService.createUser(registrationDTO);
-            redirectAttributes.addFlashAttribute("successMessage", "Registration successful! You can now log in.");
+            //redirectAttributes.addFlashAttribute("successMessage", "Registration successful! You can now log in.");
             return "redirect:/login";
         } catch (Exception e) {
             System.out.println("Error");
@@ -40,7 +45,9 @@ public class UserRegistrationController {
         }
     }
 
-    // @GetMapping("/login")
-    // public String loginUserAccount()
+
+
+
+  
 }
 

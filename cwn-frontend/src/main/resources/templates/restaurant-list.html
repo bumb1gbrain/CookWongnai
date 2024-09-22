@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+    xmlns="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Restaurants</title>
@@ -10,11 +11,40 @@
     <ul>
         <th:block th:each="restaurant : ${restaurants}">
             <li>
-                <a th:href="@{/restaurants/{id}(id=${restaurant.id})}" th:text="${restaurant.name}"></a>
+                <a th:href="@{'/restaurants/' + ${restaurant.id} + '?username=' + ${username}}" th:text="${restaurant.name}"></a>
                 | <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}">Edit</a>
                 | <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}">Delete</a>
             </li>
         </th:block>
     </ul>
+
+    <div class ="container">
+        <h1> Welcome <span sec:authentication="principal.username"> User</span>
 </body>
 </html>
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurants</title>
+</head>
+<body>
+    <h1>Restaurant List</h1>
+    <a th:href="@{/restaurants/new}?username=${param.username}">Add New Restaurant</a>
+    <ul>
+        <th:block th:each="restaurant : ${restaurants}">
+            <li>
+                <a th:href="@{/restaurants/{id}(id=${restaurant.id})}?username=${param.username}"
+                   th:text="${restaurant.name}"></a>
+                | <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}?username=${param.username}">Edit</a>
+                | <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}?username=${param.username}">Delete</a>
+            </li>
+        </th:block>
+    </ul>
+
+    <div class="container">
+        <h1>Welcome <span th:text="${param.username}"></span></h1>
+    </div>
+</body>
+</html> -->

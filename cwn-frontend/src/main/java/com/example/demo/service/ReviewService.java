@@ -41,7 +41,9 @@ public class ReviewService {
     }
 
     // Create a review for a restaurant
-    public void createReview(Long restaurantId, ReviewDTO reviewDTO) {
+    public void createReview(Long restaurantId, ReviewDTO reviewDTO, Long userId) {
+
+        reviewDTO.setUserId(userId);
         // Using UriComponentsBuilder to construct the URL
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(baseUrl)

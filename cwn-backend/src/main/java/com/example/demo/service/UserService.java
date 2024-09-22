@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 
 import com.example.demo.dto.UserRegistrationDTO;
@@ -17,6 +18,9 @@ import com.example.demo.model.Restaurant;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import com.example.demo.repository.RestaurantRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -68,7 +72,7 @@ public class UserService implements UserDetailsService {
 
     public User updateUser(Long id, User userDetails) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setUsername(userDetails.getUsername());
+        user.setUsername(userDetails.getUsername());    
         user.setPassword(userDetails.getPassword());
         user.setName(userDetails.getName());
         user.setEmail(userDetails.getEmail());
@@ -121,6 +125,8 @@ public class UserService implements UserDetailsService {
         // Example: Assign a single role "ROLE_USER". You can change this to reflect your application's roles.
         return Collections.singletonList(new SimpleGrantedAuthority("USER"));
     }
+
+
 
    
 }
