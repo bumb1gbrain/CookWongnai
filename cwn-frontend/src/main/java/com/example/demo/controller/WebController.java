@@ -33,12 +33,17 @@ public class WebController {
 
     // Display all restaurants
     @GetMapping
-    public String getAllRestaurants(Model model, @RequestParam("username") String username) {
+    public String getAllRestaurants(Model model, @RequestParam(value = "username", required = false) String username) {
         List<Restaurant> restaurants = restaurantService.getAllRestaurant();
+        if (username != null) {
+            User user = userService.getUserByUsername(username);
+            System.out.println(user.getUsername());
+        }
         model.addAttribute("restaurants", restaurants);
         System.out.println("\n\n----------------------------------------\n");
-        System.out.println("us name : "+username);
+        System.out.println("user name : " + username);
         model.addAttribute("username", username);
+        //model.addAttribute("user", user);
         return "restaurant-list";
     }
 

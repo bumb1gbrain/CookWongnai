@@ -1,50 +1,126 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Restaurants</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        .restaurant-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .restaurant-list li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+        .restaurant-name {
+            font-size: 1.5em;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+        .restaurant-details {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+        .actions {
+            margin-top: 15px;
+        }
+        .actions a {
+            text-decoration: none;
+            color: #3498db;
+            margin-right: 10px;
+        }
+        .actions a:hover {
+            text-decoration: underline;
+        }
+        .images {
+            display: flex;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        .images img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .rating {
+            color: #f39c12;
+        }
+        .add-restaurant {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .add-restaurant:hover {
+            background-color: #2ecc71;
+        }
+    </style>
 </head>
 <body>
-    <h1>Restaurant List</h1>
-    <a href="/restaurants/new">Add New Restaurant</a>
-    <ul>
+    <h1>Welcome, <span th:text="${param.username != null ? param.username : 'Login to interact with us'}">User</span></h1>
+
+    
+    <h1>Restaurant Reviews</h1>
+    
+    <!-- <a href="/restaurants/new" class="add-restaurant" th:if="${user.role.name == 'ADMIN' }">Add New Restaurant</a> -->
+
+    
+    <ul class="restaurant-list">
         <th:block th:each="restaurant : ${restaurants}">
             <li>
-                <a th:href="@{'/restaurants/' + ${restaurant.id} + '?username=' + ${username}}" th:text="${restaurant.name}"></a>
-                | <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}">Edit</a>
-                | <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}">Delete</a>
+                <a th:href="@{'/restaurants/' + ${restaurant.id} + '?username=' + ${username}}" th:text="${restaurant.name}" class="restaurant-name"></a>
+                
+                <div class="restaurant-details">
+                    Location: <span th:text="${restaurant.location}">Location</span> |
+                    Open & Close Time: <span th:text="${restaurant.oc_time}">Open Close Time</span>
+                </div>
+
+                <!-- Restaurant Images -->
+                <div class="images">
+                    <th:block th:each="photo : ${restaurant.photos}">
+                        <img th:src="${photo}" alt="Restaurant Photo">
+                    </th:block>
+                </div>
+                
+                <div class="actions">
+                    <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}">Edit</a> | 
+                    <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}">Delete</a>
+                </div>
             </li>
         </th:block>
     </ul>
-
-    <div class ="container">
-        <h1> Welcome <span sec:authentication="principal.username"> User</span>
 </body>
 </html>
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Restaurants</title>
-</head>
-<body>
-    <h1>Restaurant List</h1>
-    <a th:href="@{/restaurants/new}?username=${param.username}">Add New Restaurant</a>
-    <ul>
-        <th:block th:each="restaurant : ${restaurants}">
-            <li>
-                <a th:href="@{/restaurants/{id}(id=${restaurant.id})}?username=${param.username}"
-                   th:text="${restaurant.name}"></a>
-                | <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}?username=${param.username}">Edit</a>
-                | <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}?username=${param.username}">Delete</a>
-            </li>
-        </th:block>
-    </ul>
 
-    <div class="container">
-        <h1>Welcome <span th:text="${param.username}"></span></h1>
-    </div>
-</body>
-</html> -->
+
+<!-- <div class="reviews">
+                    <h4>Reviews:</h4>
+                    <th:block th:each="review : ${restaurant.reviews}">
+                        <div class="review" th:text="${review.content}"></div>
+                    </th:block>
+                </div> -->
+
+                <!-- <div class="actions">
+                    <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}">Edit</a> | 
+                    <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}">Delete</a>
+                </div> -->

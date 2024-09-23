@@ -15,6 +15,13 @@
         <th:block th:each="review : ${reviews}">
             <li th:text="${review.comment}"></li>
         </th:block>
+
+        <!-- <div class="rating">
+            Rating:
+            <span th:each="i : ${#numbers.sequence(1, review.rating)}">★</span>
+            <span th:each="i : ${#numbers.sequence(review.rating + 1, 5)}">☆</span>
+        </div> -->
+
     </ul>
     <h2>Add Review</h2>
     <form th:action="@{'/restaurants/{id}/reviews' + '?username=' + ${username}(id=${restaurant.id})}" method="post">
