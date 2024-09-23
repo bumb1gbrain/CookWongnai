@@ -100,7 +100,7 @@ public class UserService {
     }
 
     public void removeFavoriteRestaurant(Long userId, Long restaurantId){
-        String url = baseUrl + "/" + userId + "/favorites/" + restaurantId;
+        String url = baseUrl + "/" + userId + "/favorites/" + restaurantId + "/remove";
         restTemplate.delete(url);
     }
 
@@ -114,6 +114,15 @@ public class UserService {
 
         return response.getBody();
     }
+
+    public String getUsernameById(Long userId) {
+    String url = baseUrl + "/" + userId; // กำหนด URL สำหรับดึงข้อมูลผู้ใช้
+    ResponseEntity<User> response = restTemplate.exchange(url, HttpMethod.GET, null, User.class);
+    User user = response.getBody();
+    
+    return user != null ? user.getUsername() : null; // คืนชื่อผู้ใช้ถ้าพบ ไม่เช่นนั้นคืน null
+}
+
 
     // @Override
     // public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

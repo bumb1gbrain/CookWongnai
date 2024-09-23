@@ -2,17 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Restaurant</title>
 </head>
 <body>
     <h1>Edit Restaurant</h1>
-    <form th:action="@{'/restaurants/' + ${restaurant.id} +  '/edit' + '?username=' + ${username}}" method="post">
-        <label>Name:</label>
-        <input type="text" name="name" th:value="${restaurant.name}">
-        <label>Description:</label>
-        <textarea name="description" th:text="${restaurant.description}"></textarea>
+    <form th:action="@{'/restaurants/' + ${restaurant.id} + '/edit' + '?username=' + ${username}}" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" th:value="${restaurant.name}" required><br>
+
+        <label for="oc_time">Operating Time:</label>
+        <input type="text" id="oc_time" name="oc_time" th:value="${restaurant.oc_time}" ><br>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" th:value="${restaurant.location}" ><br>
+
+        <label for="tel">Telephone:</label>
+        <input type="text" id="tel" name="tel" th:value="${restaurant.tel}" ><br>
+
+        <label for="type">Type:</label>
+        <input type="text" id="type" name="type" th:value="${restaurant.type}" ><br>
+
+        <label for="price_range">Price Range:</label>
+        <input type="text" id="price_range" name="price_range" th:value="${restaurant.price_range}" ><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" th:text="${restaurant.description}" ></textarea><br>
+
+        <input type="url" id="photos" name="photos" 
+        th:value="${restaurant.photosAsString}" 
+        placeholder="Enter URLs separated by commas (optional)"><br>
+
+
+
         <button type="submit">Save</button>
     </form>
-    <a th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant</a>
+
+    <a th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant List</a>
 </body>
 </html>

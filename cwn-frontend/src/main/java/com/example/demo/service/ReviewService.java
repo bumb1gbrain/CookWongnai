@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 
 import com.example.demo.dto.ReviewResponseDTO;
+import com.example.demo.model.Review;
 import com.example.demo.dto.ReviewDTO;
 
 
@@ -28,21 +29,19 @@ public class ReviewService {
     }
 
     // Fetch reviews for a specific restaurant
-    public List<ReviewResponseDTO> getReviewsByRestaurant(Long restaurantId) {
+    public List<Review> getReviewsByRestaurant(Long restaurantId) {
         // Using UriComponentsBuilder to construct the URL
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(baseUrl)
                 .path("/{restaurantId}/reviews")
                 .buildAndExpand(restaurantId)
                 .toUri();
-
-        ResponseEntity<ReviewResponseDTO[]> response = restTemplate.getForEntity(uri, ReviewResponseDTO[].class);
+        ResponseEntity<Review[]> response = restTemplate.getForEntity(uri, Review[].class);
         return Arrays.asList(response.getBody());
     }
 
     // Create a review for a restaurant
     public void createReview(Long restaurantId, ReviewDTO reviewDTO, Long userId) {
-
         reviewDTO.setUserId(userId);
         // Using UriComponentsBuilder to construct the URL
         URI uri = UriComponentsBuilder
@@ -54,7 +53,7 @@ public class ReviewService {
         restTemplate.postForEntity(uri, reviewDTO, ReviewDTO.class);
     }
 
-    // Delete a review by its ID
+	// Delete a review by its ID
     public void deleteReview(Long reviewId) {
         // Using UriComponentsBuilder to construct the URL
         URI uri = UriComponentsBuilder
@@ -65,4 +64,6 @@ public class ReviewService {
 
         restTemplate.delete(uri);
     }
+
+
 }

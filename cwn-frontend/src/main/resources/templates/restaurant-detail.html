@@ -12,9 +12,11 @@
     <h1 th:text="${restaurant.name}"></h1>
     <p th:text="${restaurant.description}"></p>
     <h2>Reviews</h2>
-    <ul>
+     <ul>
         <th:block th:each="review : ${reviews}">
-            <li th:text="${review.comment}"></li>
+            <li>
+                <span th:text="${review.user.username} + ' : ' + ${review.comment}"></span>
+            </li>
         </th:block>
 
         <!-- <div class="rating">

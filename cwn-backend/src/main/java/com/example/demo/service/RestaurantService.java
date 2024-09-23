@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Restaurant;
+import com.example.demo.model.User;
 import com.example.demo.repository.RestaurantRepository;
+import com.example.demo.repository.UserRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -15,6 +18,9 @@ public class RestaurantService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     public List<Restaurant> getAllRestaurants() {
         return restaurantRepository.findAll();
@@ -41,8 +47,23 @@ public class RestaurantService {
         return restaurantRepository.save(updateRestaurant);
     }
             
-
-    public void deleteRestaurant(Long id) {
-        restaurantRepository.deleteById(id);
+    
+    public void deleteRestaurant(Long restaurantId) {
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+            .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+    
+        // Remove restaurant from each user's favorite list
+        for (User user : restaurant.getUsersWhoFavorited()) {
+            user.getFavoriteRestaurants().remove(restaurant);
+        }
+    
+        // Optionally, save the users to update the favorites relationship in the database
+        // Assuming you have a user repository to save the changes
+        for (User user : restaurant.getUsersWhoFavorited()) {
+            userRepository.save(user); // Update user with removed restaurant
+        }
+    
+        // Finally, delete the restaurant
+        restaurantRepository.delete(restaurant);
     }
 }

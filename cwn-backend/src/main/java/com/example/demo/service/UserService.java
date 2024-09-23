@@ -8,18 +8,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.Collection;
 import java.util.List;
 
 import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import com.example.demo.repository.RestaurantRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -124,6 +119,12 @@ public class UserService implements UserDetailsService {
     private List<GrantedAuthority> getAuthorities(User user) {
         // Example: Assign a single role "ROLE_USER". You can change this to reflect your application's roles.
         return Collections.singletonList(new SimpleGrantedAuthority("USER"));
+    }
+
+     public String getUsernameById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.getUsername();
     }
 
 

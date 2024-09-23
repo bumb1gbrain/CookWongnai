@@ -145,6 +145,11 @@ public class Restaurant {
         this.reviews = reviews;
     }
 
+    public String getPhotosAsString() {
+    return String.join(", ", this.photos);
+    }
+
+
     
     
 

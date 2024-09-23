@@ -86,7 +86,7 @@ public class UserController {
     }
 
     // Remove a restaurant from the user's favorites
-    @DeleteMapping("/{userId}/favorites/{restaurantId}")
+    @DeleteMapping("/{userId}/favorites/{restaurantId}/remove")
     public void removeFavoriteRestaurant(@PathVariable Long userId, @PathVariable Long restaurantId) {
         userService.removeFavoriteRestaurant(userId, restaurantId);
     }

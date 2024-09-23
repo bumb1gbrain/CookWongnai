@@ -26,20 +26,21 @@ public class ReviewService {
     @Autowired
     private UserRepository userRepository;
 
-    // Model method to create a review
-    @Transactional
-    public Review createReview(Long restaurantId, Long userId, Review review) {
-        Restaurant restaurant = restaurantRepository.findById(restaurantId)
-                .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+    // // Model method to create a review
+    // @Transactional
+    // public Review createReview(Long restaurantId, Long userId, Review review) {
+    //     Restaurant restaurant = restaurantRepository.findById(restaurantId)
+    //             .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId));
+    //     User user = userRepository.findById(userId)
+    //             .orElseThrow(() -> new UserNotFoundException(userId));
 
-        review.setRestaurant(restaurant);
-        review.setUser(user);
+    //     review.setRestaurant(restaurant);
+    //     review.setUser(user);
+    //     user.setId(userId);
 
-        return reviewRepository.save(review);
-    }
+    //     return reviewRepository.save(review);
+    // }
 
     // DTO method to create a review
     @Transactional
@@ -55,8 +56,6 @@ public class ReviewService {
         review.setUser(user);
 
         reviewRepository.save(review);
-        
-        reviewDTO.setId(review.getId());
         return reviewDTO;
     }
 
