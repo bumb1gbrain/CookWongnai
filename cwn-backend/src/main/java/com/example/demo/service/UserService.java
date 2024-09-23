@@ -15,7 +15,6 @@ import java.util.List;
 
 import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.Restaurant;
-import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import java.util.Optional;
 import java.util.stream.Collector;
@@ -63,7 +62,8 @@ public class UserService implements UserDetailsService {
         user.setUsername(userRegistrationDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userRegistrationDTO.getPassword())); // Encrypt the password
         user.setEmail(userRegistrationDTO.getEmail());
-        user.setRole(Arrays.asList(new Role("USER"))) ;
+        user.setRole("USER");
+        //user.setRole(Arrays.asList(new Role("USER"))) ;
 
         // Save the user
         userRepository.save(user);

@@ -76,12 +76,13 @@
     </style>
 </head>
 <body>
+    <a th:href="@{'/login'}"> Log out</a>
     <h1>Welcome, <span th:text="${param.username != null ? param.username : 'Login to interact with us'}">User</span></h1>
 
     
     <h1>Restaurant Reviews</h1>
     
-    <!-- <a href="/restaurants/new" class="add-restaurant" th:if="${user.role.name == 'ADMIN' }">Add New Restaurant</a> -->
+    <a th:href="@{'/restaurants/new' + '?username=' + ${username}}"class="add-restaurant" th:if="${user.role == 'ADMIN' }">Add New Restaurant</a>
 
     
     <ul class="restaurant-list">
@@ -100,10 +101,17 @@
                         <img th:src="${photo}" alt="Restaurant Photo">
                     </th:block>
                 </div>
-                
+
                 <div class="actions">
-                    <a th:href="@{/restaurants/{id}/edit(id=${restaurant.id})}">Edit</a> | 
-                    <a th:href="@{/restaurants/{id}/delete(id=${restaurant.id})}">Delete</a>
+                    <form th:action="@{'/users/' + ${user.id} + '/favorites/' + ${restaurant.id}}" method="post">
+                        <input type="hidden" name="username" th:value="${username}" />
+                        <button type="submit">Add to Favorites</button>
+                    </form>
+                </div>
+                
+                <div class="actions" th:if="${user.role == 'ADMIN' }">
+                    <a th:href="@{'/restaurants/' + ${restaurant.id} + '/edit' + '?username=' + ${username}}">Edit</a> | 
+                    <a th:href="@{'/restaurants/' + ${restaurant.id} +'/delete' +'?username=' + ${username}}">Delete</a>
                 </div>
             </li>
         </th:block>

@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    <a th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant</a>
     <h1 th:text="${restaurant.name}"></h1>
     <p th:text="${restaurant.description}"></p>
     <h2>Reviews</h2>

@@ -91,6 +91,8 @@ public class UserController {
         userService.removeFavoriteRestaurant(userId, restaurantId);
     }
 
+    
+
     // Get a user's favorite restaurants
     @GetMapping("/{userId}/favorites")
     public List<Restaurant> getFavoriteRestaurants(@PathVariable Long userId) {

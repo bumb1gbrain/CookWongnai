@@ -4,10 +4,7 @@ import java.util.List;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,7 +12,9 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import lombok.Data;
 
+@Data
 @Entity
 public class User {
     @Id
@@ -28,16 +27,18 @@ public class User {
     private String name;
     private String email;
 
+    private String role;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "users_role",
-        joinColumns = @JoinColumn(
-            name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(
-            name = "role_id", referencedColumnName = "id")
-        )
-    private List<Role> roles;
+
+    // @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    // @JoinTable(
+    //     name = "users_role",
+    //     joinColumns = @JoinColumn(
+    //         name = "user_id", referencedColumnName = "id"),
+    //     inverseJoinColumns = @JoinColumn(
+    //         name = "role_id", referencedColumnName = "id")
+    //     )
+    // private List<Role> roles;
 
     
     @ManyToMany
@@ -53,17 +54,17 @@ public class User {
     private List<Review> reviews;
 
 
-    public User(Long id, String username, String password, String name, String email, List<Role> roles,
-            List<Restaurant> favoriteRestaurants, List<Review> reviews) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.email = email;
-        this.roles = roles;
-        this.favoriteRestaurants = favoriteRestaurants;
-        this.reviews = reviews;
-    }
+    // public User(Long id, String username, String password, String name, String email, List<Role> roles,
+    //         List<Restaurant> favoriteRestaurants, List<Review> reviews) {
+    //     this.id = id;
+    //     this.username = username;
+    //     this.password = password;
+    //     this.name = name;
+    //     this.email = email;
+    //     this.roles = roles;
+    //     this.favoriteRestaurants = favoriteRestaurants;
+    //     this.reviews = reviews;
+    // }
 
     public User(){
         
@@ -133,13 +134,13 @@ public class User {
         this.favoriteRestaurants.remove(restaurant);
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
+    // public List<Role> getRoles() {
+    //     return roles;
+    // }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
+    // public void setRoles(List<Role> roles) {
+    //     this.roles = roles;
+    // }
     
     
 

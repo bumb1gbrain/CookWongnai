@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.List;
-import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -11,17 +10,11 @@ import org.springframework.http.ResponseEntity;
 // import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-// import org.springframework.security.authentication.InternalAuthenticationServiceException;
-// import org.springframework.security.core.GrantedAuthority;
-// import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import java.util.stream.Collectors;
-
-
 import com.example.demo.dto.UserRegistrationDTO;
-import com.example.demo.dto.UserResponseDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
-import com.example.demo.model.Role;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserService {
@@ -53,19 +46,42 @@ public class UserService {
         ResponseEntity<User> response = restTemplate.getForEntity(url, User.class);
         return response.getBody();
     }
-
-    public User createUser(UserRegistrationDTO user) {
-        // Ensure baseUrl points to the correct endpoint
-        System.out.println("ebum");
-        String url = "http://localhost:8080/api/users";  // Example URL, replace with your actual API URL
-        ResponseEntity<User> response = restTemplate.postForEntity(url, user, User.class);
+    // @Transactional
+    // public User createUser(UserRegistrationDTO user) {
+    //     // Ensure baseUrl points to the correct endpoint
+    //     System.out.println("ebum");
+    //     String url = "http://localhost:8080/api/users";  // Example URL, replace with your actual API URL
+    //     ResponseEntity<User> response = restTemplate.postForEntity(url, user, User.class);
+    //     System.out.println("check");
         
-        // Check if the response is successful
-        //if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody();
-        //} else {
-            //throw new RuntimeException("Failed to create user: " + response.getStatusCode());
-        //}
+    //     // Check if the response is successful
+    //     if (response.getStatusCode().is2xxSuccessful()) {
+    //         return response.getBody();
+    //     } else {
+    //         throw new RuntimeException("Failed to create user: " + response.getStatusCode());
+    //     }
+    // }
+
+    @Transactional
+    public User createUser(UserRegistrationDTO userRegistrationDTO) {
+        // Define the API URL where the user is to be created
+        String url = "http://localhost:8080/api/users";  // Replace with your actual API URL
+
+        try {
+            // Send a POST request to the API to create a user
+            ResponseEntity<User> response = restTemplate.postForEntity(url, userRegistrationDTO, User.class);
+
+            // Check if the response is successful (status 2xx)
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();  // Return the created user object
+            } else {
+                // Handle non-2xx responses with an informative exception
+                throw new RuntimeException("Failed to create user. Status Code: " + response.getStatusCode());
+            }
+        } catch (Exception e) {
+            // Log or handle any other exceptions (like connection errors)
+            throw new RuntimeException("An error occurred while creating the user: " + e.getMessage(), e);
+        }
     }
 
     public void updateUser(Long id, User user){

@@ -6,12 +6,13 @@
 </head>
 <body>
     <h1>Edit Restaurant</h1>
-    <form th:action="@{/restaurants/{id}/edit(id=${restaurant.id})}" method="post">
+    <form th:action="@{'/restaurants/' + ${restaurant.id} +  '/edit' + '?username=' + ${username}}" method="post">
         <label>Name:</label>
         <input type="text" name="name" th:value="${restaurant.name}">
         <label>Description:</label>
         <textarea name="description" th:text="${restaurant.description}"></textarea>
         <button type="submit">Save</button>
     </form>
+    <a th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant</a>
 </body>
 </html>

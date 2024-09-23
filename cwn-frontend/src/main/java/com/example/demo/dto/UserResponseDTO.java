@@ -1,24 +1,24 @@
 package com.example.demo.dto;
-import java.util.List;
-import com.example.demo.model.Role;
+import lombok.Data;
 
+@Data
 public class UserResponseDTO {
     private String username;
     
     private String password;
 
-    private List<Role> role;
+    private String role;
 
     public UserResponseDTO() {
     }
 
     
 
-    public UserResponseDTO(String username, String password, List<Role> role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
+    // public UserResponseDTO(String username, String password, List<Role> role) {
+    //     this.username = username;
+    //     this.password = password;
+    //     this.role = role;
+    // }
 
 
 
@@ -38,12 +38,12 @@ public class UserResponseDTO {
         this.password = password;
     }
 
-    public List<Role> getRole() {
-        return role;
-    }
+    // public List<Role> getRole() {
+    //     return role;
+    // }
 
-    public void setRole(List<Role> role) {
-        this.role = role;
-    }
+    // public void setRole(List<Role> role) {
+    //     this.role = role;
+    // }
     
 }

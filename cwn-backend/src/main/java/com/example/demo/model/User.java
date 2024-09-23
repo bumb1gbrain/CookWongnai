@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +23,9 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements UserDetails {
@@ -39,22 +43,24 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable
-    (
-        name = "users_role",
-        joinColumns = @JoinColumn(
-            name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(
-            name = "role_id", referencedColumnName = "id")
-        )
-    private List<Role> role = new ArrayList<>();
+    private String role;
+    // @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    // @JoinTable
+    // (
+    //     name = "users_role",
+    //     joinColumns = @JoinColumn(
+    //         name = "user_id", referencedColumnName = "id"),
+    //     inverseJoinColumns = @JoinColumn(
+    //         name = "role_id", referencedColumnName = "id")
+    //     )
+    // private List<Role> role = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
         name = "user_favorite_restaurants",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "restaurant_id"))
+    @JsonIgnoreProperties("usersWhoFavorited")
     private List<Restaurant> favoriteRestaurants;
 
     @OneToMany(mappedBy = "user")
@@ -68,19 +74,19 @@ public class User implements UserDetails {
         
     }
 
-    public User(String username, String password, String email, List<Role> role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-        this.email = email;
-    }
+    // public User(String username, String password, String email, List<Role> role) {
+    //     this.username = username;
+    //     this.password = password;
+    //     this.role = role;
+    //     this.email = email;
+    // }
     
-    public User(String username, String password, List<Role> role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
+    // public User(String username, String password, List<Role> role) {
+    //     this.username = username;
+    //     this.password = password;
+    //     this.role = role;
         
-    }
+    // }
 
     
 
@@ -157,13 +163,6 @@ public class User implements UserDetails {
         this.favoriteRestaurants.remove(restaurant);
     }
 
-    public List<Role> getRole() {
-        return role;
-    }
-
-    public void setRole(List<Role> role) {
-        this.role = role;
-    }
 
     @Override
 public boolean isAccountNonExpired() {
