@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.dto.RestaurantDTO;
 import com.example.demo.dto.UserDTO;
+import com.example.demo.dto.UserProfileDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -25,7 +26,7 @@ public class WebUserController {
     // Display user details and favorite restaurants
     @GetMapping("/users/usersDTO/{id}")
     public String getUserDetails(@PathVariable Long id, Model model) {
-        UserDTO user = userService.getUserById(id);
+        UserDTO user = userService.getUserDTOById(id);
         List<RestaurantDTO> favoriteRestaurants = userService.getFavoriteRestaurants(id);
         for(var e: favoriteRestaurants){
             System.out.println("!!!!!!!!!!!!!!!!!! = = == = = = =====     "+ e.getName());
@@ -51,9 +52,10 @@ public class WebUserController {
     }
 
     @GetMapping("/users/{id}")
-    public String getProfile(@PathVariable Long id, Model model ) {
-        UserDTO user = userService.getUserById(id);
+    public String getProfile(@PathVariable Long id, Model model,@RequestParam(value = "username", required = false)String username ) {
+        User user = userService.getUserById(id);
         model.addAttribute("user",user);
+        model.addAttribute("username",username);
         return "profile";
     }
     
