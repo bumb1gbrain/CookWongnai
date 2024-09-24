@@ -43,7 +43,6 @@ public class ReviewService {
     // }
 
     // DTO method to create a review
-    @Transactional
     public ReviewDTO createReview(Long restaurantId, ReviewDTO reviewDTO) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
                 .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
@@ -82,10 +81,10 @@ public class ReviewService {
     }
 
     // DTO method to get a review by ID
-    public ReviewDTO getReviewByIdDTO(Long reviewId) {
-        Review review = getReviewById(reviewId);
-        return convertToDTO(review);
-    }
+    // public ReviewDTO getReviewByIdDTO(Long reviewId) {
+    //     Review review = getReviewById(reviewId);
+    //     return convertToDTO(review);
+    // }
 
     // Model method to update a review
     @Transactional
@@ -97,14 +96,14 @@ public class ReviewService {
     }
 
     // DTO method to update a review
-    @Transactional
-    public ReviewDTO updateReviewDTO(Long id, ReviewDTO reviewDTO) {
-        Review review = getReviewById(id);
-        review.setComment(reviewDTO.getComment());
-        review.setRating(reviewDTO.getRating());
-        reviewRepository.save(review);
-        return convertToDTO(review);
-    }
+    // @Transactional
+    // public ReviewDTO updateReviewDTO(Long id, ReviewDTO reviewDTO) {
+    //     Review review = getReviewById(id);
+    //     review.setComment(reviewDTO.getComment());
+    //     review.setRating(reviewDTO.getRating());
+    //     reviewRepository.save(review);
+    //     return convertToDTO(review);
+    // }
 
     // Method to delete a review
     @Transactional
@@ -114,13 +113,13 @@ public class ReviewService {
     }
 
     // Utility method to convert Review to ReviewDTO
-    private ReviewDTO convertToDTO(Review review) {
-        return new ReviewDTO(
-            review.getId(),
-            review.getComment(),
-            review.getRating(),
-            review.getUser().getId(),
-            review.getRestaurant().getId()
-        );
-    }
+    // private ReviewDTO convertToDTO(Review review) {
+    //     return new ReviewDTO(
+    //         review.getId(),
+    //         review.getComment(),
+    //         review.getRating(),
+    //         review.getUser().getId(),
+    //         review.getRestaurant().getId()
+    //     );
+    // }
 }

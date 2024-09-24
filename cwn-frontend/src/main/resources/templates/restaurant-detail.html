@@ -5,40 +5,110 @@
     <meta charset="UTF-8">
     <title>Restaurant Details</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f9fc;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #2980b9;
+        }
+
+        h1 {
+            color: #1a3d7a; /* Changed to a darker navy color for better visibility */
+            background-color: #f7f9fc;
+        }
+
+        h2 {
+            color: #2c3e50;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        .images {
+            display: flex;
+            margin-top: 15px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .images img {
+            width: 100%;
+            max-width: 300px; /* Limits the image width */
+            height: auto; /* Maintains aspect ratio */
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
 <body>
     <a th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant</a>
     <h1 th:text="${restaurant.name}"></h1>
     <p th:text="${restaurant.description}"></p>
+
+    <div class="images">
+        <th:block th:each="photo : ${restaurant.photos}">
+            <img th:src="${photo}" alt="Restaurant Photo">
+        </th:block>
+    </div>
+
     <h2>Reviews</h2>
-     <ul>
+    <ul>
         <th:block th:each="review : ${reviews}">
             <li>
                 <span th:text="${review.user.username} + ' : ' + ${review.comment}"></span>
             </li>
         </th:block>
-
-        <!-- <div class="rating">
-            Rating:
-            <span th:each="i : ${#numbers.sequence(1, review.rating)}">★</span>
-            <span th:each="i : ${#numbers.sequence(review.rating + 1, 5)}">☆</span>
-        </div> -->
-
     </ul>
+
     <h2>Add Review</h2>
     <form th:action="@{'/restaurants/{id}/reviews' + '?username=' + ${username}(id=${restaurant.id})}" method="post">
-        <textarea name="comment"></textarea>
+        <textarea name="comment" placeholder="Write your review..."></textarea>
         <button type="submit">Submit</button>
     </form>
-
-    <!-- <form th:action="@{/users/{userId}/favorites/{restaurantId}(userId=${user.id}, restaurantId=${restaurant.id})}"
-        method="post">
-        <button type="submit">Add to Favorites</button>
-    </form> -->
-
-
-
 </body>
 
 </html>

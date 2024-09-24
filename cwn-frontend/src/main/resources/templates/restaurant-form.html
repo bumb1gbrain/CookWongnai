@@ -4,36 +4,104 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Restaurant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        form {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #2ecc71;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <h1>Add New Restaurant</h1>
     <form th:action="@{'/restaurants/new' + '?username=' + ${username}}" method="post">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" th:value="${restaurant.name}" required><br>
+        <input type="text" id="name" name="name" th:value="${restaurant.name}" required>
 
         <label for="oc_time">Operating Time:</label>
-        <input type="text" id="oc_time" name="oc_time" th:value="${restaurant.oc_time}" required><br>
+        <input type="text" id="oc_time" name="oc_time" th:value="${restaurant.oc_time}" required>
 
         <label for="location">Location:</label>
-        <input type="text" id="location" name="location" th:value="${restaurant.location}" required><br>
+        <input type="text" id="location" name="location" th:value="${restaurant.location}" required>
 
         <label for="tel">Telephone:</label>
-        <input type="text" id="tel" name="tel" th:value="${restaurant.tel}" required><br>
+        <input type="text" id="tel" name="tel" th:value="${restaurant.tel}" required>
 
         <label for="type">Type:</label>
-        <input type="text" id="type" name="type" th:value="${restaurant.type}" required><br>
+        <input type="text" id="type" name="type" th:value="${restaurant.type}" required>
 
         <label for="price_range">Price Range:</label>
-        <input type="text" id="price_range" name="price_range" th:value="${restaurant.price_range}" required><br>
+        <input type="text" id="price_range" name="price_range" th:value="${restaurant.price_range}" required>
 
         <label for="description">Description:</label>
-        <textarea id="description" name="description" th:text="${restaurant.description}" required></textarea><br>
+        <textarea id="description" name="description" th:text="${restaurant.description}" required></textarea>
 
         <label for="photos">Photos:</label>
-        <input type="url" id="photos" name="photos" 
-                th:placeholder="'Enter URLs separated by commas'" ><br>
-
-
+        <input type="url" id="photos" name="photos" th:placeholder="'Enter URLs separated by commas'">
 
         <button type="submit">Submit</button>
     </form>

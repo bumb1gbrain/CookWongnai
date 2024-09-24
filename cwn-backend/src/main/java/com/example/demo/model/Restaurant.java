@@ -3,8 +3,11 @@ package com.example.demo.model;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
@@ -32,10 +35,11 @@ public class Restaurant {
     private List<String> photos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "favoriteRestaurants")
+    //@JsonIgnoreProperties("favoriteRestaurants")
+    @JsonIgnore
     private List<User> usersWhoFavorited = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    //@JsonIgnore
     private List<Review> reviews = new ArrayList<>();
 
     public Restaurant(Long id, String name, String oc_time, String location, String tel, List<String> type,

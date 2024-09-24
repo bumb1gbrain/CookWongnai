@@ -1,43 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Restaurant</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        label {
+            display: block;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"], textarea, input[type="url"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #3498db;
+        }
+
+        a:hover {
+            color: #2980b9;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Edit Restaurant</h1>
     <form th:action="@{'/restaurants/' + ${restaurant.id} + '/edit' + '?username=' + ${username}}" method="post">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" th:value="${restaurant.name}" required><br>
+        <input type="text" id="name" name="name" th:value="${restaurant.name}" required>
 
         <label for="oc_time">Operating Time:</label>
-        <input type="text" id="oc_time" name="oc_time" th:value="${restaurant.oc_time}" ><br>
+        <input type="text" id="oc_time" name="oc_time" th:value="${restaurant.oc_time}">
 
         <label for="location">Location:</label>
-        <input type="text" id="location" name="location" th:value="${restaurant.location}" ><br>
+        <input type="text" id="location" name="location" th:value="${restaurant.location}">
 
         <label for="tel">Telephone:</label>
-        <input type="text" id="tel" name="tel" th:value="${restaurant.tel}" ><br>
+        <input type="text" id="tel" name="tel" th:value="${restaurant.tel}">
 
         <label for="type">Type:</label>
-        <input type="text" id="type" name="type" th:value="${restaurant.type}" ><br>
+        <input type="text" id="type" name="type" th:value="${restaurant.type}">
 
         <label for="price_range">Price Range:</label>
-        <input type="text" id="price_range" name="price_range" th:value="${restaurant.price_range}" ><br>
+        <input type="text" id="price_range" name="price_range" th:value="${restaurant.price_range}">
 
         <label for="description">Description:</label>
-        <textarea id="description" name="description" th:text="${restaurant.description}" ></textarea><br>
+        <textarea id="description" name="description" th:text="${restaurant.description}"></textarea>
 
-        <input type="url" id="photos" name="photos" 
-        th:value="${restaurant.photosAsString}" 
-        placeholder="Enter URLs separated by commas (optional)"><br>
-
-
+        <label for="photos">Photos (URLs):</label>
+        <input type="url" id="photos" name="photos" th:value="${restaurant.photosAsString}">
 
         <button type="submit">Save</button>
     </form>
 
     <a th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant List</a>
 </body>
+
 </html>

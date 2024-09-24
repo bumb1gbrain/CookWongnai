@@ -7,7 +7,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,7 +23,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
@@ -26,7 +30,6 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames = "username"))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +46,23 @@ public class User implements UserDetails {
     private String email;
 
     private String role;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+        name = "user_favorite_restaurants",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "restaurant_id"))
+    // @JsonIgnoreProperties("favoriteRestaurants")
+    @JsonIgnore
+    private List<Restaurant> favoriteRestaurants;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    private List<Review> reviews;
+
+    public User(){
+        
+    }
+
     // @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     // @JoinTable
     // (
@@ -53,23 +73,6 @@ public class User implements UserDetails {
     //         name = "role_id", referencedColumnName = "id")
     //     )
     // private List<Role> role = new ArrayList<>();
-
-    
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-        name = "user_favorite_restaurants",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "restaurant_id"))
-    @JsonIgnoreProperties("usersWhoFavorited")
-    private List<Restaurant> favoriteRestaurants;
-
-    @OneToMany(mappedBy = "user")
-    @JsonIgnoreProperties("user")
-    private List<Review> reviews;
-
-    public User(){
-        
-    }
 
     // public User(String username, String password, String email, List<Role> role) {
     //     this.username = username;

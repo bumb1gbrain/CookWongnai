@@ -79,13 +79,22 @@ public class WebController {
     public String getRestaurantById(@PathVariable Long id, Model model,
             @RequestParam(value = "username", required = false) String username) {
         Restaurant restaurant = restaurantService.getRestaurantById(id);
+        if(username != null){
         List<Review> reviews = reviewService.getReviewsByRestaurant(id);
+        for(var e: reviews){
+            System.out.println("e + =-=-=-=-=-" + e);
+        }
         System.out.println("\n\n----------------------------------------\n");
         System.out.println("us name : " + username);
         model.addAttribute("restaurant", restaurant);
         model.addAttribute("reviews", reviews);
         model.addAttribute("username", username);
-
+        }
+        // else{
+        //     model.addAttribute("restaurant", restaurant);
+        //     model.addAttribute("reviews", new ArrayList<>());
+        //     model.addAttribute("username", username);
+        // }
         return "restaurant-detail";
     }
 

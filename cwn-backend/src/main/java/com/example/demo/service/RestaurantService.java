@@ -51,18 +51,18 @@ public class RestaurantService {
     public void deleteRestaurant(Long restaurantId) {
         Restaurant restaurant = restaurantRepository.findById(restaurantId)
             .orElseThrow(() -> new RestaurantNotFoundException(restaurantId));
+        // if(restaurant.getUsersWhoFavorited() != null){
+        // // Remove restaurant from each user's favorite list
+        // for (User user : restaurant.getUsersWhoFavorited()) {
+        //     user.getFavoriteRestaurants().remove(restaurant);
+        // }
     
-        // Remove restaurant from each user's favorite list
-        for (User user : restaurant.getUsersWhoFavorited()) {
-            user.getFavoriteRestaurants().remove(restaurant);
-        }
-    
-        // Optionally, save the users to update the favorites relationship in the database
-        // Assuming you have a user repository to save the changes
-        for (User user : restaurant.getUsersWhoFavorited()) {
-            userRepository.save(user); // Update user with removed restaurant
-        }
-    
+        // // Optionally, save the users to update the favorites relationship in the database
+        // // Assuming you have a user repository to save the changes
+        // for (User user : restaurant.getUsersWhoFavorited()) {
+        //     userRepository.save(user); // Update user with removed restaurant
+        // }
+        // }
         // Finally, delete the restaurant
         restaurantRepository.delete(restaurant);
     }
