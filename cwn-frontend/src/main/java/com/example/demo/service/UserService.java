@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 // import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import com.example.demo.dto.RestaurantDTO;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
@@ -34,10 +37,21 @@ public class UserService {
     return response.getBody();
     }
 
-    public User getUserById(Long id){
+    public List<UserDTO> getAllUserDTOs(){
+        String url = baseUrl + "/usersDTO";
+        ResponseEntity<List<UserDTO>> response =
+        restTemplate.exchange(url,HttpMethod.GET,
+        null,
+        new ParameterizedTypeReference<List<UserDTO>>() {}
+        );
+        
+    return response.getBody();
+    }
+
+    public UserDTO getUserById(Long id){
         String url = baseUrl + "/" + id;
-        ResponseEntity<User> response =  restTemplate.exchange(url,HttpMethod.GET,null
-                ,new ParameterizedTypeReference<User>() {});
+        ResponseEntity<UserDTO> response =  restTemplate.exchange(url,HttpMethod.GET,null
+                ,new ParameterizedTypeReference<UserDTO>() {});
         return response.getBody();
     }
 
@@ -104,13 +118,13 @@ public class UserService {
         restTemplate.delete(url);
     }
 
-    public List<Restaurant> getFavoriteRestaurants(Long userId){
+    public List<RestaurantDTO> getFavoriteRestaurants(Long userId){
         String url = baseUrl + "/" + userId + "/favorites";
-        ResponseEntity<List<Restaurant>> response =
+        ResponseEntity<List<RestaurantDTO>> response =
             restTemplate.exchange(url,
             HttpMethod.GET,
             null,
-            new ParameterizedTypeReference<List<Restaurant>>() {});
+            new ParameterizedTypeReference<List<RestaurantDTO>>() {});
 
         return response.getBody();
     }

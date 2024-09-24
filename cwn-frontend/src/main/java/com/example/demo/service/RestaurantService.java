@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.example.demo.dto.RestaurantDTO;
 import com.example.demo.model.Restaurant;
 
 @Service
@@ -35,6 +36,17 @@ public class RestaurantService {
         return response.getBody();
     }
 
+    public List<RestaurantDTO> getAllRestaurantDTOs() {
+        String url = baseUrl +"/registersDTO";
+        ResponseEntity<List<RestaurantDTO>> response = 
+            restTemplate.exchange(url,
+            HttpMethod.GET,
+            null,
+            new ParameterizedTypeReference<List<RestaurantDTO>>() {});
+
+        return response.getBody();
+    }
+
     // Get Restaurant by id
     public Restaurant getRestaurantById(Long id) {
         String url = baseUrl + "/" + id;
@@ -44,6 +56,18 @@ public class RestaurantService {
             HttpMethod.GET,
             null,
             new ParameterizedTypeReference<Restaurant>(){});
+
+        return response.getBody();
+    }
+
+    public RestaurantDTO getRestaurantDTOById(Long id) {
+        String url = baseUrl + "/" + id;
+        System.out.println(url);
+        ResponseEntity<RestaurantDTO> response = 
+            restTemplate.exchange(url,
+            HttpMethod.GET,
+            null,
+            new ParameterizedTypeReference<RestaurantDTO>(){});
 
         return response.getBody();
     }

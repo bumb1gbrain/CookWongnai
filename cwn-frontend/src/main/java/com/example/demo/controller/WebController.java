@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.RestaurantDTO;
 import com.example.demo.dto.ReviewDTO;
-import com.example.demo.dto.ReviewResponseDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.Review;
 import com.example.demo.model.User;
@@ -37,11 +37,11 @@ public class WebController {
         List<Restaurant> restaurants = restaurantService.getAllRestaurant();
         if (username != null) {
             User user = userService.getUserByUsername(username);
-            List<Restaurant> favoriteRestaurants = userService.getFavoriteRestaurants(user.getId());
+            List<RestaurantDTO> favoriteRestaurants = userService.getFavoriteRestaurants(user.getId());
 
             // Create a list of favorite restaurant IDs
             List<Long> favoriteRestaurantIds = favoriteRestaurants.stream()
-                    .map(Restaurant::getId)
+                    .map(RestaurantDTO::getId)
                     .collect(Collectors.toList());
 
             // Add attributes to the model

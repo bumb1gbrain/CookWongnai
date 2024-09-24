@@ -11,10 +11,14 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 
+import com.example.demo.dto.RestaurantDTO;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import com.example.demo.repository.RestaurantRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -34,10 +38,22 @@ public class UserService implements UserDetailsService {
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
-    
+
     public Optional<User> getUserById(Long id){
         return userRepository.findById(id);
-    }   
+    }
+    public List<UserDTO> getAllUsersDTO(){
+        List<User> users = userRepository.findAll();
+        return users.stream()
+        .map(user -> new UserDTO(user.getId(), user.getUsername(), user.getFavoriteRestaurants()))
+        .collect(Collectors.toList());
+    }
+
+
+    // public Optional<UserDTO> getUserDTOById(Long id){
+    //     User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+    //     return Optional.of(new UserDTO(user.getId(), user.getUsername(), user.getFavoriteRestaurants()));
+    // }   
 
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -103,7 +119,6 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         return user.getFavoriteRestaurants();
     }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);

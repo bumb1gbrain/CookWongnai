@@ -35,11 +35,11 @@ public class Restaurant {
     private List<String> photos = new ArrayList<>();
 
     @ManyToMany(mappedBy = "favoriteRestaurants")
-    //@JsonIgnoreProperties("favoriteRestaurants")
     @JsonIgnore
     private List<User> usersWhoFavorited = new ArrayList<>();
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("usersWhoFavorited")
     private List<Review> reviews = new ArrayList<>();
 
     public Restaurant(Long id, String name, String oc_time, String location, String tel, List<String> type,

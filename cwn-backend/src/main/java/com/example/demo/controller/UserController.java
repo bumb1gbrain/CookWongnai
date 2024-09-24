@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.UserDTO;
 import com.example.demo.dto.UserRegistrationDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
@@ -33,11 +34,21 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    @GetMapping("/usersDTO")
+    public List<UserDTO> getAllUsersDTO() {
+        return userService.getAllUsersDTO();
+    }
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    // @GetMapping("/{id}")
+    // public ResponseEntity<UserDTO> getUserDTOById(@PathVariable Long id) {
+    //     Optional<UserDTO> user = userService.getUserDTOById(id);
+    //     return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    // }
 
     @GetMapping("/byUsername/{username}")
     public ResponseEntity<User> getUserByUsername(@PathVariable String username) {

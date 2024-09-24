@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.RestaurantDTO;
 import com.example.demo.dto.ReviewDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.Review;
@@ -37,6 +38,10 @@ public class RestaurantController {
         return restaurantService.getAllRestaurants();
     }
 
+    @GetMapping("/restaurantsDTO")
+    public List<RestaurantDTO> getAllRestaurantDTOs(){
+        return restaurantService.getAllRestaurantsDTO();
+    }
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
         Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.dto.RestaurantDTO;
+import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
@@ -18,10 +20,13 @@ public class WebUserController {
 
 
     // Display user details and favorite restaurants
-    @GetMapping("/users/{id}")
+    @GetMapping("/users/usersDTO/{id}")
     public String getUserDetails(@PathVariable Long id, Model model) {
-        User user = userService.getUserById(id);
-        List<Restaurant> favoriteRestaurants = userService.getFavoriteRestaurants(id);
+        UserDTO user = userService.getUserById(id);
+        List<RestaurantDTO> favoriteRestaurants = userService.getFavoriteRestaurants(id);
+        for(var e: favoriteRestaurants){
+            System.out.println("!!!!!!!!!!!!!!!!!! = = == = = = =====     "+ e.getName());
+        }
         model.addAttribute("user", user);
         model.addAttribute("favorites", favoriteRestaurants);
         return "user-detail";

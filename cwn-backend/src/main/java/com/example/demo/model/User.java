@@ -30,6 +30,7 @@ import lombok.Data;
 
 @Data
 @Entity
+@Table(name = "user", uniqueConstraints = @UniqueConstraint(columnNames =  "username"))
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
