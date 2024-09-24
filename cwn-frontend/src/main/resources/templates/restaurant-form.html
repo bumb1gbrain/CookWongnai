@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Restaurant</title>
+    <title>Restaurants</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <style>
+        /* Custom Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #f5f5f5;
@@ -17,95 +24,169 @@
             text-align: center;
         }
 
-        form {
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
+        .restaurant-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            max-width: 800px;
             margin: auto;
         }
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #34495e;
+        .restaurant-list li {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.2s;
         }
 
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
+        .restaurant-list li:hover {
+            transform: translateY(-2px);
         }
 
-        input:focus, textarea:focus {
-            border-color: #3498db;
-            outline: none;
-        }
-
-        button {
-            background-color: #27ae60;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-            width: 100%;
-        }
-
-        button:hover {
-            background-color: #2ecc71;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            margin-top: 15px;
-            color: #3498db;
+        .restaurant-name {
+            font-size: 1.5em;
+            color: #2980b9;
             text-decoration: none;
         }
 
-        a:hover {
+        .restaurant-details {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        .actions {
+            margin-top: 15px;
+        }
+
+        .actions a {
+            text-decoration: none;
+            color: #3498db;
+            margin-right: 10px;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
+        }
+
+        .images {
+            display: flex;
+            margin-top: 15px;
+            gap: 10px;
+        }
+
+        .images img {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-restaurant {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .add-restaurant:hover {
+            background-color: #2ecc71;
+        }
+
+        a.logout {
+            float: right;
+            margin-bottom: 20px;
+            color: #e74c3c;
+            text-decoration: none;
+        }
+
+        a.logout:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Add New Restaurant</h1>
-    <form th:action="@{'/restaurants/new' + '?username=' + ${username}}" method="post">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" th:value="${restaurant.name}" required>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="javascript:window.location.reload()">Restaurant Reviews</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown" th:if="${user != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Account
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" th:href="@{'/users/profile/' + ${user.id} + '?username=' + ${username}}">View Profile</a>
+                        <a class="dropdown-item" th:href="@{'/users/' + ${user.id} + '/favorites' + '?username=' + ${username}}">Favorites</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{'/login'}">Logout</a>
+                    </div>
+                </li>
+                <li class="nav-item" th:unless="${user != null}">
+                    <a class="nav-link" th:href="@{'/login'}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 
-        <label for="oc_time">Operating Time:</label>
-        <input type="text" id="oc_time" name="oc_time" th:value="${restaurant.oc_time}" required>
+    <h1>Welcome, <span th:text="${param.username != null ? param.username : 'Login to interact with us'}">User</span></h1>
+    
+    <h1>Restaurant Reviews</h1>
+    <a th:href="@{'/restaurants/new' + '?username=' + ${username}}" class="add-restaurant" th:if="${user.role == 'ADMIN' }">Add New Restaurant</a>
 
-        <label for="location">Location:</label>
-        <input type="text" id="location" name="location" th:value="${restaurant.location}" required>
+    <!-- Restaurant List -->
+    <ul class="restaurant-list">
+        <th:block th:each="restaurant : ${restaurants}">
+            <li>
+                <a th:href="@{'/restaurants/' + ${restaurant.id} + '?username=' + ${username}}" th:text="${restaurant.name}" class="restaurant-name"></a>
+                <div class="restaurant-details">
+                    Location: <span th:text="${restaurant.location}">Location</span> |
+                    Open & Close Time: <span th:text="${restaurant.oc_time}">Open Close Time</span>
+                </div>
+                <div class="images">
+                    <th:block th:each="photo : ${restaurant.photos}">
+                        <img th:src="${photo}" alt="Restaurant Photo">
+                    </th:block>
+                </div>
 
-        <label for="tel">Telephone:</label>
-        <input type="text" id="tel" name="tel" th:value="${restaurant.tel}" required>
+                <div class="actions" th:if="${user.id != null }"></div>
+                    <form th:if="${favoriteRestaurantIds.contains(restaurant.id)}"
+                        th:action="@{'/users/' + ${user.id} + '/favorites/' + ${restaurant.id} + '/remove' + '?username=' + ${username}}"
+                        method="post">
+                        <button type="submit">Remove from Favorites</button>
+                    </form>
 
-        <label for="type">Type:</label>
-        <input type="text" id="type" name="type" th:value="${restaurant.type}" required>
+                    <form th:unless="${favoriteRestaurantIds.contains(restaurant.id)}"
+                        th:action="@{'/users/' + ${user.id} + '/favorites/' + ${restaurant.id} + '?username=' + ${username}}"
+                        method="post">
+                        <button type="submit">Add to Favorites</button>
+                    </form>
+                </div>
 
-        <label for="price_range">Price Range:</label>
-        <input type="text" id="price_range" name="price_range" th:value="${restaurant.price_range}" required>
+                <!-- Admin Actions: Edit/Delete -->
+                <div class="actions" th:if="${user.role == 'ADMIN'}">
+                    <a th:href="@{'/restaurants/' + ${restaurant.id} + '/edit' + '?username=' + ${username}}">Edit</a> |
+                    <a th:href="@{'/restaurants/' + ${restaurant.id} + '/delete' + '?username=' + ${username}}">Delete</a>
+                </div>
+            </li>
+        </th:block>
+    </ul>
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" th:text="${restaurant.description}" required></textarea>
-
-        <label for="photos">Photos:</label>
-        <input type="url" id="photos" name="photos" th:placeholder="'Enter URLs separated by commas'">
-
-        <button type="submit">Submit</button>
-    </form>
-
-    <a th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant List</a>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -12,6 +12,9 @@ import com.example.demo.dto.UserDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 public class WebUserController {
@@ -46,5 +49,13 @@ public class WebUserController {
         userService.removeFavoriteRestaurant(userId, restaurantId);
         return "redirect:/restaurants" +  "?username=" + username;
     }
+
+    @GetMapping("/users/{id}")
+    public String getProfile(@PathVariable Long id, Model model ) {
+        UserDTO user = userService.getUserById(id);
+        model.addAttribute("user",user);
+        return "profile";
+    }
+    
 
 }

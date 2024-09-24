@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-light bg-light mb-4">
+        <a class="navbar-brand" th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant</a>
+    </nav>
+
+    <div class="container">
+        <h1 class="display-4" th:text="${user.username}"></h1>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">User Information</h5>
+                <!-- <p class="card-text"><strong>Name:</strong> <span th:text="${user.name}"></span></p> แสดง Name -->
+                <p class="card-text"><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+                <p class="card-text"><strong>Username:</strong> <span th:text="${username}"></span></p>
+                <!-- ลิงก์สำหรับไปยังหน้าแก้ไขโปรไฟล์ -->
+                <a class="btn btn-primary" th:href="@{/users/profile/edit/{id}(id=${user.id})}">Edit Profile</a>
+            </div>
+        </div>
+
+        <!-- Uncomment to display favorite restaurants -->
+        <!-- 
+        <h2 class="mt-4">Favorite Restaurants</h2>
+        <ul class="list-group">
+            <th:block th:each="restaurant : ${user.favorites}">
+                <li class="list-group-item" th:text="${restaurant.name}"></li>
+            </th:block>
+        </ul> 
+        -->
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
