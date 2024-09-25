@@ -14,7 +14,7 @@
         /* Custom Styles */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #f0f8ff;
             margin: 0;
             padding: 20px;
         }
@@ -33,7 +33,7 @@
         }
 
         .restaurant-list li {
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             margin-bottom: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -114,7 +114,7 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg" style="background-color: #002855;">
         <a class="navbar-brand" href="javascript:window.location.reload()">Restaurant Reviews</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,7 +143,7 @@
 
     <h1>Welcome, <span th:text="${param.username != null ? param.username : 'Login to interact with us'}">User</span></h1>
     
-    <h1>Restaurant Reviews</h1>
+    <h1>To Restaurant Reviews</h1>
     <a th:href="@{'/restaurants/new' + '?username=' + ${username}}" class="add-restaurant" th:if="${user.role == 'ADMIN' }">Add New Restaurant</a>
 
     <!-- Restaurant List -->

@@ -17,7 +17,7 @@
 <body>
     <div class="container">
         <h1 class="mb-4">Edit Profile</h1>
-        <form action="#" th:action="@{/users/profile/{id}(id=${user.id})}" method="post">
+        <form action="#" th:action="@{/users/{id}(id=${user.id})}" method="post">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" class="form-control" th:value="${user.name}" required />

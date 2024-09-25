@@ -20,16 +20,16 @@
     </nav>
 
     <div class="container">
-        <h1 class="display-4" th:text="${user.username}"></h1>
+        
 
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">User Information</h5>
-                <!-- <p class="card-text"><strong>Name:</strong> <span th:text="${user.name}"></span></p> แสดง Name -->
+                 <p class="card-text"><strong>Name:</strong> <span th:text="${user.name}"></span></p> <!--แสดง Name -->
                 <p class="card-text"><strong>Email:</strong> <span th:text="${user.email}"></span></p>
                 <p class="card-text"><strong>Username:</strong> <span th:text="${username}"></span></p>
                 <!-- ลิงก์สำหรับไปยังหน้าแก้ไขโปรไฟล์ -->
-                <a class="btn btn-primary" th:href="@{/users/profile/edit/{id}(id=${user.id})}">Edit Profile</a>
+                <a class="btn btn-primary" th:href="@{/users/{id}/edit(id=${user.id})}">Edit Profile</a>
             </div>
         </div>
 

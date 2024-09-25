@@ -26,7 +26,6 @@
 
         h1 {
             color: #1a3d7a;
-            /* Changed to a darker navy color for better visibility */
             background-color: #f7f9fc;
         }
 
@@ -77,9 +76,7 @@
         .images img {
             width: 100%;
             max-width: 300px;
-            /* Limits the image width */
             height: auto;
-            /* Maintains aspect ratio */
             object-fit: cover;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -87,13 +84,11 @@
 
         .rating {
             direction: rtl;
-            /* Reverse the stars so highest value comes first */
             display: inline-flex;
         }
 
         .rating input[type="radio"] {
             display: none;
-            /* Hide the actual radio buttons */
         }
 
         .rating label {
@@ -105,13 +100,19 @@
 
         .rating input[type="radio"]:checked~label {
             color: #f39c12;
-            /* Color for selected stars */
         }
 
         .rating label:hover,
         .rating label:hover~label {
             color: #f39c12;
-            /* Hover effect for stars */
+        }
+
+        .display-rating .fa-star {
+            color: lightgray;
+        }
+
+        .display-rating .filled {
+            color: #f39c12;
         }
     </style>
 </head>
@@ -131,7 +132,15 @@
     <ul>
         <th:block th:each="review : ${reviews}">
             <li>
-                <span th:text="${review.user.username} + ' : ' + ${review.comment}"></span>
+                <span th:text="${review.user.username}"></span> : <span th:text="${review.comment}"></span>
+                <div class="display-rating">
+                    <!-- Loop through the rating and display filled/unfilled stars based on the rating value -->
+                    <i class="fa fa-star" th:classappend="${1 <= review.rating} ? 'filled' : ''"></i>
+                    <i class="fa fa-star" th:classappend="${2 <= review.rating} ? 'filled' : ''"></i>
+                    <i class="fa fa-star" th:classappend="${3 <= review.rating} ? 'filled' : ''"></i>
+                    <i class="fa fa-star" th:classappend="${4 <= review.rating} ? 'filled' : ''"></i>
+                    <i class="fa fa-star" th:classappend="${5 <= review.rating} ? 'filled' : ''"></i>
+                </div>
             </li>
         </th:block>
     </ul>
@@ -158,6 +167,9 @@
         <textarea name="comment" placeholder="Write your review..."></textarea>
         <button type="submit">Submit</button>
     </form>
+
+    <!-- Font Awesome for stars -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
 </body>
 
 </html>

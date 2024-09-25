@@ -25,7 +25,7 @@ public class WebUserController {
 
     // Display user details and favorite restaurants
     @GetMapping("/users/usersDTO/{id}")
-    public String getUserDetails(@PathVariable Long id, Model model) {
+    public String getUserDetails(@PathVariable Long id, Model model,@RequestParam(value = "username", required = false) String username) {
         UserDTO user = userService.getUserDTOById(id);
         List<RestaurantDTO> favoriteRestaurants = userService.getFavoriteRestaurants(id);
         for(var e: favoriteRestaurants){
@@ -33,6 +33,7 @@ public class WebUserController {
         }
         model.addAttribute("user", user);
         model.addAttribute("favorites", favoriteRestaurants);
+        model.addAttribute("username",username );
         return "user-detail";
     }
 
@@ -58,6 +59,15 @@ public class WebUserController {
         model.addAttribute("username",username);
         return "profile";
     }
+
+    @GetMapping("/users/{id}/edit")
+    public String showEditProfile(@PathVariable Long id, Model model, @RequestParam(value = "username", required = false)String username) {
+        User user = userService.getUserById(id);
+        model.addAttribute("user",user);
+        model.addAttribute("username",username);
+        return "editProfile";
+    }
+    
     
 
 }
