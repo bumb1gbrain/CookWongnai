@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
     <meta charset="UTF-8">
     <title>Restaurants</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -13,7 +18,8 @@
     <style>
         /* Custom Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            /* Change font to Poppins */
             background-color: #f0f8ff;
             margin: 0;
             padding: 20px;
@@ -46,9 +52,31 @@
         }
 
         .restaurant-name {
-            font-size: 1.5em;
+            font-size: 1.8em;
+            /* Increased font size */
             color: #2980b9;
+            /* Main color for the name */
             text-decoration: none;
+            /* Remove underline */
+            font-weight: bold;
+            /* Make the name bold */
+            background-color: rgba(41, 128, 185, 0.1);
+            /* Light background */
+            padding: 5px;
+            /* Add some padding */
+            border-radius: 5px;
+            /* Rounded corners */
+            transition: background-color 0.3s, transform 0.3s;
+            /* Add transition effects */
+        }
+
+        .restaurant-name:hover {
+            background-color: rgba(41, 128, 185, 0.2);
+            /* Darken on hover */
+            transform: scale(1.05);
+            /* Slightly enlarge on hover */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            /* Add a shadow effect */
         }
 
         .restaurant-details {
@@ -110,47 +138,60 @@
         a.logout:hover {
             text-decoration: underline;
         }
+
+        .btn span {
+            font-size: 0.9em;
+            /* Adjusts the font size */
+            color: #ffffff;
+            /* Adjusts the text color */
+        }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg" style="background-color: #002855;">
-        <a class="navbar-brand" href="javascript:window.location.reload()">Restaurant Reviews</a>
+        <a class="navbar-brand" href="javascript:window.location.reload()">CookWongnai</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown" th:if="${user != null}">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
+                <li class="nav-item dropdown" th:if="${param.username != null}">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fas fa-user"></i> Account
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" th:href="@{'/users/' + ${user.id} + '?username=' + ${username}}">View Profile</a>
-                        <a class="dropdown-item" th:href="@{'/users/usersDTO/' + ${user.id} + '?username=' + ${username}}">Favorites</a>
+                        <a class="dropdown-item" th:href="@{'/users/' + ${user.id} + '?username=' + ${username}}">View
+                            Profile</a>
+                        <a class="dropdown-item"
+                            th:href="@{'/users/usersDTO/' + ${user.id} + '?username=' + ${username}}">Favorites</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" th:href="@{'/login'}">Logout</a>
                     </div>
                 </li>
-                <li class="nav-item" th:unless="${user != null}">
+                <li class="nav-item" th:if="${param.username == null}">
                     <a class="nav-link" th:href="@{'/login'}">Login</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <h1>Welcome, <span th:text="${param.username != null ? param.username : 'Login to interact with us'}">User</span></h1>
-    
-    <h1>To Restaurant Reviews</h1>
-    <a th:href="@{'/restaurants/new' + '?username=' + ${username}}" class="add-restaurant" th:if="${user.role == 'ADMIN' }">Add New Restaurant</a>
+    <h1>Welcome, <span th:text="${param.username != null ? param.username : 'Login to interact with us'}">User</span>
+    </h1>
+
+    <h1>To CookWongnai</h1>
+    <a th:href="@{'/restaurants/new' + '?username=' + ${username}}" class="add-restaurant"
+        th:if="${user.role == 'ADMIN' }">Add New Restaurant</a>
 
     <!-- Restaurant List -->
     <ul class="restaurant-list">
         <th:block th:each="restaurant : ${restaurants}">
             <li>
-                <a th:href="@{'/restaurants/' + ${restaurant.id} + '?username=' + ${username}}" th:text="${restaurant.name}" class="restaurant-name"></a>
+                <a th:href="@{'/restaurants/' + ${restaurant.id} + '?username=' + ${username}}"
+                    th:text="${restaurant.name}" class="restaurant-name"></a>
                 <div class="restaurant-details">
                     Location: <span th:text="${restaurant.location}">Location</span> |
                     Open & Close Time: <span th:text="${restaurant.oc_time}">Open Close Time</span>
@@ -161,24 +202,31 @@
                     </th:block>
                 </div>
 
-                <div class="actions" th:if="${user.id != null }"></div>
+                <div class="actions" th:if="${user.id != null }">
                     <form th:if="${favoriteRestaurantIds.contains(restaurant.id)}"
                         th:action="@{'/users/' + ${user.id} + '/favorites/' + ${restaurant.id} + '/remove' + '?username=' + ${username}}"
                         method="post">
-                        <button type="submit">Remove from Favorites</button>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-heart-broken"></i> <!-- Icon for removing from favorites -->
+                            <span class="ml-1">Remove from Favorites</span> <!-- Description text -->
+                        </button>
                     </form>
 
                     <form th:unless="${favoriteRestaurantIds.contains(restaurant.id)}"
                         th:action="@{'/users/' + ${user.id} + '/favorites/' + ${restaurant.id} + '?username=' + ${username}}"
                         method="post">
-                        <button type="submit">Add to Favorites</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-heart"></i> <!-- Icon for adding to favorites -->
+                            <span class="ml-1">Add to Favorites</span> <!-- Description text -->
+                        </button>
                     </form>
                 </div>
 
                 <!-- Admin Actions: Edit/Delete -->
                 <div class="actions" th:if="${user.role == 'ADMIN'}">
                     <a th:href="@{'/restaurants/' + ${restaurant.id} + '/edit' + '?username=' + ${username}}">Edit</a> |
-                    <a th:href="@{'/restaurants/' + ${restaurant.id} + '/delete' + '?username=' + ${username}}">Delete</a>
+                    <a
+                        th:href="@{'/restaurants/' + ${restaurant.id} + '/delete' + '?username=' + ${username}}">Delete</a>
                 </div>
             </li>
         </th:block>
@@ -189,4 +237,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>

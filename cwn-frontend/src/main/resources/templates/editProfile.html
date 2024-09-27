@@ -17,11 +17,12 @@
 <body>
     <div class="container">
         <h1 class="mb-4">Edit Profile</h1>
-        <form action="#" th:action="@{/users/{id}(id=${user.id})}" method="post">
+        <form action="#" th:action="@{'/users/{id}/edit' + '?username=' + ${username} (id=${user.id})}" method="post">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" class="form-control" th:value="${user.name}" required />
             </div>
+            <h2 th:text="${user.name}"></h2>
             <!-- <div class="form-group">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" class="form-control" required />

@@ -91,6 +91,7 @@ public class UserService {
     }
 
     public void updateUser(Long id, User user){
+        System.out.println("\n\n\n\n\n\n\n\n\n\n\n------- updateu ser\n\n\n\n\n\n");
         String url = baseUrl + "/" + id;
         restTemplate.put(url, user);
     }

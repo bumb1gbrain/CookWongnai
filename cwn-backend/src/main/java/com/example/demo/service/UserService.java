@@ -83,11 +83,21 @@ public class UserService implements UserDetailsService {
 
     public User updateUser(Long id, User userDetails) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        user.setUsername(userDetails.getUsername());    
-        user.setPassword(userDetails.getPassword());
-        user.setName(userDetails.getName());
-        user.setEmail(userDetails.getEmail());
-        user.setRole(userDetails.getRole());
+        if(userDetails.getUsername() != null) {
+            user.setUsername(userDetails.getUsername());
+            } 
+            if(userDetails.getPassword() != null) {
+            user.setPassword(userDetails.getPassword());
+            }
+            if(userDetails.getName() != null) {
+            user.setName(userDetails.getName());
+            }
+            if(userDetails.getEmail() != null) {
+            user.setEmail(userDetails.getEmail());
+            }
+            if(userDetails.getRole() != null) {
+            user.setRole(userDetails.getRole());
+            }
         return userRepository.save(user);
     }
 

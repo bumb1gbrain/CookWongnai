@@ -3,45 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <title>User Profile</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            margin: 20px;
+            font-family: 'Poppins', sans-serif; /* Change font to Poppins */
+            background-color: #f0f8ff; /* Light background color */
+            margin: 0;
+            padding: 20px;
+        }
+        .navbar {
+            background-color: #002855; /* Match navbar color */
+        }
+        .navbar-brand {
+            color: #3498db !important; /* Navbar text color */
+        }
+        .navbar-brand:hover {
+            color: #f0f8ff; /* Navbar hover text color */
         }
         .card {
-            margin-bottom: 20px;
+            background-color: #ffffff; /* Card background color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Card shadow */
+            border-radius: 8px; /* Rounded corners */
+        }
+        .card-title {
+            color: #2c3e50; /* Card title color */
+        }
+        .btn-primary {
+            background-color: #27ae60; /* Button color */
+            border: none; /* Remove button border */
+        }
+        .btn-primary:hover {
+            background-color: #2ecc71; /* Button hover color */
+        }
+        .card-text {
+            color: #7f8c8d; /* Card text color */
+        }
+        .actions a {
+            text-decoration: none;
+            color: #3498db;
+            margin-right: 10px;
+        }
+
+        .actions a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-light bg-light mb-4">
+    <nav class="navbar navbar-light mb-4">
         <a class="navbar-brand" th:href="@{'/restaurants' + '?username=' + ${username}}">Back to Restaurant</a>
     </nav>
 
     <div class="container">
-        
-
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">User Information</h5>
-                 <p class="card-text"><strong>Name:</strong> <span th:text="${user.name}"></span></p> <!--แสดง Name -->
+                <p class="card-text"><strong>Name:</strong> <span th:text="${user.name}"></span></p>
                 <p class="card-text"><strong>Email:</strong> <span th:text="${user.email}"></span></p>
                 <p class="card-text"><strong>Username:</strong> <span th:text="${username}"></span></p>
-                <!-- ลิงก์สำหรับไปยังหน้าแก้ไขโปรไฟล์ -->
-                <a class="btn btn-primary" th:href="@{/users/{id}/edit(id=${user.id})}">Edit Profile</a>
+                <a class="btn btn-primary" th:href="@{'/users/{id}/edit' + '?username=' + ${username} (id=${user.id}) }">Edit Profile</a>
             </div>
         </div>
-
-        <!-- Uncomment to display favorite restaurants -->
-        <!-- 
-        <h2 class="mt-4">Favorite Restaurants</h2>
-        <ul class="list-group">
-            <th:block th:each="restaurant : ${user.favorites}">
-                <li class="list-group-item" th:text="${restaurant.name}"></li>
-            </th:block>
-        </ul> 
-        -->
     </div>
 
     <!-- Bootstrap JS and dependencies -->

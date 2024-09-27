@@ -13,14 +13,14 @@ import com.example.demo.dto.UserProfileDTO;
 import com.example.demo.model.Restaurant;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
 public class WebUserController {
     @Autowired
     private UserService userService;
+
+    
 
 
     // Display user details and favorite restaurants
@@ -60,9 +60,20 @@ public class WebUserController {
         return "profile";
     }
 
+    @PostMapping("/users/{id}/edit")
+    public String updateProfile(@PathVariable Long id,Model model, @RequestParam(value = "username", required = false)String username, @ModelAttribute User user ){
+        
+    // Add the updated user to the model
+        model.addAttribute("username", username);
+        model.addAttribute("user", user);
+        userService.updateUser(id, user);
+        return "redirect:/users/" + id + "?username=" + username;
+    }
+
     @GetMapping("/users/{id}/edit")
     public String showEditProfile(@PathVariable Long id, Model model, @RequestParam(value = "username", required = false)String username) {
         User user = userService.getUserById(id);
+        System.out.println(user.getUsername());
         model.addAttribute("user",user);
         model.addAttribute("username",username);
         return "editProfile";
